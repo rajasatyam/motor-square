@@ -4,9 +4,30 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
+// import { checkUser } from '@/lib/checkUser'
+import { getAdmin } from '@/actions/admin'
+
+
+
+
+
 
 const Header = async({isAdminPage=false}) => {
-    const isAdmin=true
+
+    // const user=await checkUser();
+
+    // const isAdmin=user?.role === "ADMIN"
+    const checkAdmin=await getAdmin()
+
+    const isAdmin=checkAdmin.user.role
+console.log(checkAdmin.user.role,"piyush")
+
+
+
+    
+    
+
+
   return (
    <header className='fixed top-0 w-full bg-white/80 backdrop-blur-xl flex z-50 border-b justify-between'>
     <nav className=' px-4 py-4 '>

@@ -4,8 +4,7 @@ import validator from "validator";
 const userSchema=new mongoose.Schema({
     clerkUserId:{
        type:String,
-       unique:true,
-       required:true,
+    required:true
     },
     email:{
         type:String,
@@ -26,7 +25,7 @@ const userSchema=new mongoose.Schema({
         }
     },
     phone:{
-        type:Number,
+        type:String,
         
     },
     role:{
