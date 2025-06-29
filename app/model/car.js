@@ -18,7 +18,7 @@ const carSchema=new mongoose.Schema({
         index:true
     },
     price:{
-        type:mongoose.SchemaTypes.Decimal128,
+        type:String,
         required:true,
         index:true
     },
