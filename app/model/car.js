@@ -23,7 +23,7 @@ const carSchema=new mongoose.Schema({
         index:true
     },
     mileage:{
-        type:mongoose.SchemaTypes.Int32,
+        type:String,
         required:true,
     
     },
@@ -59,10 +59,13 @@ const carSchema=new mongoose.Schema({
         default:"false",
         index:true
     },
-    images:{
-        type:[String],
-        
-    },
+    images:[
+          {
+    fileId: { type: String, required: true },
+    url: { type: String, required: true },
+
+  }
+    ],
    savedBy: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserSavedCar',
