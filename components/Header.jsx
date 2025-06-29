@@ -19,8 +19,8 @@ const Header = async({isAdminPage=false}) => {
     // const isAdmin=user?.role === "ADMIN"
     const checkAdmin=await getAdmin()
 
-    const isAdmin=checkAdmin.user.role
-console.log(checkAdmin.user.role,"piyush")
+    const isAdmin=checkAdmin?.user?.role
+console.log(checkAdmin?.user?.role,"piyush")
 
 
 

@@ -1,15 +1,18 @@
 "use server"
 
 import User from "@/app/model/user"
+import { connect } from "@/lib/database"
 import { auth } from "@clerk/nextjs/server"
 
 export async function getAdmin() {
-
+    await connect()
+         
     const {userId}=await auth()
  
 
     if(!userId){
-        throw new Error("Unauthorized")
+     
+        console.log('Unauthorized')
     }
 
     const user=await User.findOne({clerkUserId:userId})
