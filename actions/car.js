@@ -1,11 +1,14 @@
+"use server"
+
 import { auth } from "@clerk/nextjs/server";
 import { GoogleGenAI } from "@google/genai";
 import User from "@/app/model/user"
 import { connect } from "@/lib/database";
 import ImageKit from "imagekit";
 import Car from "@/app/model/car";
-import { connect } from "@/lib/database";
+import { v4 as uuidv4 } from "uuid";
 
+ 
 
 
 
