@@ -4,7 +4,7 @@ import { toast } from "sonner"
 
 
 const useFetch=(cb)=>{
-const [data,setData]=useState(undefined)
+const [data,setData]=useState()
 const [loading,setLoading]=useState(null)
 const [error,setError]=useState(null)
 
@@ -14,8 +14,14 @@ const fn=async(...args)=>{
 
     try{
     const response=await cb(...args)
-    setData(response)
+
+   
+        console.log(response,"see fetch response")
+   setData(response)
     setError(null)
+    toast.success("all data uploaded successfully")
+    return response
+ 
     }catch(error){
 setError(error)
 toast.error(error.message)
