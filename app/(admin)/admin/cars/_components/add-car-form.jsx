@@ -48,7 +48,7 @@ const bodyTypes=[
     "Suv",
     "Sedan",
     "HatchBack",
-    "Covertible",
+    "Convertible",
     "Coupe",
     "Wagon",
     "Pickup"
@@ -91,6 +91,7 @@ const carFormSchema=z.object({
 
 const AddCarForm = () => {
 
+ 
     const [activeTab,setActiveTab]=useState("manual")
     const [uploadedImages,setUploadedImages]=useState([])
     const [imageError,setImageError]=useState("")
@@ -191,18 +192,23 @@ useEffect(()=>{
   useEffect(() => {
     if (processImageResult?.success) {
       const carDetails = processImageResult?.data;
-
+         console.log(processImageResult.success,"dekho data")
       // Update form with AI results
      Object.entries(carDetails).forEach(([key,value])=>{
+
+      if(typeof value === "number"){
+        setValue(key,value.toString())
+      }
+      else{
       setValue(key,value)
+      }
      })
      
 
    
    
         setUploadedImages((prev) => [...prev, uploadedAiImage]);
-     
-   
+
 
       toast.success("Successfully extracted car details", {
         description: `Detected ${carDetails.year} ${carDetails.make} ${
@@ -210,7 +216,7 @@ useEffect(()=>{
         } with ${Math.round(carDetails.confidence * 100)}% confidence`,
       });
 
-      // Switch to manual tab for the user to review and fill in missing details
+     
       setActiveTab("manual");
     }
   }, [processImageResult, setValue, uploadedAiImage]);
@@ -232,6 +238,7 @@ const {
 
 useEffect(()=>{
   console.log("see car result",addCarResult)
+  console.log(addCarResult?.success)
 if(addCarResult?.success){
   toast.success("Car Added Successfully")
   router.push("/admin/cars")
@@ -296,7 +303,7 @@ const onSubmit=async(data)=>{
   }
   console.log(data,"piyush")
   console.log(uploadedImages,"dekho images")
-
+  console.log("pk yha aa gye ")
 
   const formData=new FormData()
 
@@ -310,7 +317,18 @@ const onSubmit=async(data)=>{
   });
 
   try{
-await addCarFn(formData)
+const response = await fetch("http://localhost:3000/api/files/upload", {
+  method: "POST",
+  body: formData,
+});
+
+const result = await response.json();
+console.log(result,"bdcoe")
+
+if(response.ok) {
+ await router.push("/admin/cars")
+}
+
   }catch(error){
 console.error("Error submitting form:",error)
   }
@@ -384,7 +402,7 @@ setUploadedImages((prev)=>prev.filter((_,i)=>i!==index))
                     <Label htmlFor="year">Year</Label>
                     <Input
                       id="year"
-                      type="number"
+                     type="number"
                       {...register("year")}
                       placeholder="e.g. 2022"
                       className={errors.year ? "border-red-500" : ""}
@@ -401,6 +419,7 @@ setUploadedImages((prev)=>prev.filter((_,i)=>i!==index))
                     <Label htmlFor="price">Price ($)</Label>
                     <Input
                       id="price"
+                      type="number"
                       {...register("price")}
                       placeholder="e.g. 25000"
                       className={errors.price ? "border-red-500" : ""}
@@ -672,7 +691,12 @@ setUploadedImages((prev)=>prev.filter((_,i)=>i!==index))
                 <Button
                   type="submit"
                   className="w-full md:w-auto"
-              
+                  onClick={async(e)=>{
+                    e.preventDefault()
+                    const currentFormValues=getValues()
+                 
+                    await onSubmit(currentFormValues)
+                  }}
                 >
                   {addCarLoading ? (
                     <>

@@ -7,6 +7,8 @@ import { connect } from "@/lib/database";
 import ImageKit from "imagekit";
 import Car from "@/app/model/car";
 import { v4 as uuidv4 } from "uuid";
+import { serializedCarData } from "@/lib/helper";
+
 
  
 
@@ -60,6 +62,29 @@ export async function processCarImageWithAI(file){
         "description": "",
         "confidence": 0.0
       }
+       for fuelType only give the responses out of the following:-
+       1.Petrol
+       2.Diesel
+       3.Electric
+       4.Hybrid
+       5.Plug-in Hybrid
+
+       for tranmission give the responses out of the following :-
+       1.Automatic
+       2.Manual
+       3.Semi-Automatic
+
+       for Body Type give the responses only out of the following:-
+       1.Suv
+       2.Sedan
+       3.HatchBack
+       4.Convertible
+       5.Coupe
+       6.Wagon
+       7.Pickup
+
+       And for price only integer value representing price in dollars.
+       Return Mileage in Km/litre 
 
       For confidence, provide a value between 0 and 1 representing how confident you are in your overall identification.
       Only respond with the JSON object, nothing else.
@@ -236,5 +261,63 @@ return {
   }
     
   
+
+}
+
+
+
+export async function getCars(search=""){
+try{
+    const where={};
+    if(search){
+      where.$or=[
+        {make:{$regex:search,$options:'i'}},
+        {model:{$regex:search,$options:'i'}},
+        {color:{$regex:search,$options:'i'}}
+      ]
+    }
+
+    const cars=await Car.find(where).sort({createdAt:-1})
+
+    const serializedCars=cars.map(serializedCarData)
+
+    return {
+      success:true,
+      data:serializedCars
+    }
+}catch(error){
+   console.error("Error Fetching Cars",error)
+   return {
+    success:false,
+    error:error.message
+   }
+}
+}
+
+export async function deleteCars(id){
+  try{
+     const {searchParams}=new URL(request.url)
+     const id=searchParams.get("id")
+
+     const deleteCar=await Car.findByIdAndDelete({_id:id})
+     if(!deleteCar){
+       return {
+            error:"No Car Provided"
+        }
+     }
+     return{
+      success:true,
+      message:"Car deleted Successfully"
+     }
+  }catch(error){
+       console.error("Error Deleting Cars",error)
+   return {
+    success:false,
+    error:error.message
+   }
+  }
+}
+
+export async function updateCarStatusFn(){
 
 }
