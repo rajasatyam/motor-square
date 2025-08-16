@@ -30,6 +30,8 @@ const Carlist = () => {
 
    const [deletingCar,setDeletingCar]=useState(false)
 
+   const [isUpdating,setIsUpdating]=useState(false)
+
 
     // const {
     //   loading:loadingCars,
@@ -45,14 +47,10 @@ const Carlist = () => {
             console.log(result,"api result dekho")
             setCarsData(result?.serializedCars)
             setIsLoadingCars(false)
-
+          console.log(carsData,"car dekho  ")
     }
     
  
-
-
-   
-
 
     useEffect(()=>{
 
@@ -93,17 +91,33 @@ const Carlist = () => {
      }
     }
 
-    const handleToggleFeatured=async(car)=>{
-      const {featured,status,_id}=car
+    const handleUpdate=async(car,action)=>{
+      const {_id}=car
        console.log("dekh car pk",car)
-      console.log("dekho car bdcoe",featured,status,_id)
-      const updatedFeatured=!featured
-        const response=  await fetch(`http://localhost:3000/api/updateCar?id=${_id}&featured=${updatedFeatured}&status=${status}`,{
+      console.log("dekho car bdcoe",_id)
+      
+      let updatedFeatured=car.featured;
+      let updatedStatus=car.status;
+      
+      if(action === "toggleFeatured"){
+        updatedFeatured=!car.featured
+      }
+      else if(action === "AVAILABLE"){
+             updatedStatus="AVAILABLE"
+      }
+      else if(action === 'UNAVAILABLE'){
+          updatedStatus= 'UNAVAILABLE'
+      }
+
+
+        const response=  await fetch(`http://localhost:3000/api/updateCar?id=${_id}&featured=${updatedFeatured}&status=${updatedStatus}`,{
           method:'PUT'
         })
      
           if(response.ok){
+            setIsUpdating(true)
           toast.success("Car Updated Successfully")
+          window.location.reload()
           }
 
        
@@ -164,7 +178,7 @@ const Carlist = () => {
         <Loader2 className='h-8 w-8 animate-spin text-gray-400'/>
       </div>
      ):(
-      carsData ?(
+      carsData && carsData.length>0?(
         <div className='overflow-x-auto'>
           <Table>
 
@@ -211,7 +225,7 @@ const Carlist = () => {
           variant="ghost"
           size="sm"
           className="p-0 h-9 w-9"
-        onClick={()=>handleToggleFeatured(car)}
+        onClick={()=>handleUpdate(car,'toggleFeatured')}
         
         >
       {car.featured ?(
@@ -251,8 +265,25 @@ const Carlist = () => {
       View</DropdownMenuItem>
       <DropdownMenuSeparator />
       <DropdownMenuLabel>Status</DropdownMenuLabel>
-    <DropdownMenuItem>Set Available</DropdownMenuItem>
-    <DropdownMenuItem>Set Unavailable</DropdownMenuItem>
+    <DropdownMenuItem  
+       onClick={()=>{
+        handleUpdate(car,'AVAILABLE')
+       }}
+    disabled={
+      car.status === 'AVAILABLE' ||   isUpdating
+    }
+    
+    >Set Available</DropdownMenuItem>
+    <DropdownMenuItem 
+      onClick={()=>{
+        handleUpdate(car,'UNAVAILABLE')
+       }}
+    disabled={
+      car.status === 'UNAVAILABLE' ||   isUpdating
+    }
+    
+    
+    >Set Unavailable</DropdownMenuItem>
     <DropdownMenuItem>Mark as Sold</DropdownMenuItem>
       <DropdownMenuSeparator />
      <DropdownMenuItem className="text-red-600"  
@@ -276,7 +307,18 @@ const Carlist = () => {
 </Table>
         </div>
       ):(
-       <div></div>
+       <div className='flex flex-col items-center justify-center py-12 px-4 text-center '>
+         <CarIcon className='h-12 w-12 text-gray-300 mb-4'/>
+         <h3 className='text-lg font-medium text-gray-900 mb-1'>
+          No Cars Found
+         </h3>
+         <p className='text-gray-500 mb-4'>
+          {search?"No cars match your search criteria ":"Your inventory is empty.Add Cars toget started."}
+         </p>
+         <Button onClick={()=>router.push("/admin/cars/create")} >
+          Add Your First Car
+         </Button>
+       </div>
       )
      )}
   </CardContent>
