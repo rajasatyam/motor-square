@@ -1,10 +1,18 @@
 import User from "@/app/model/user"
+import { connect } from "@/lib/database"
+import { auth } from "@clerk/nextjs/server"
+import { revalidatePath } from "next/cache"
 import { NextResponse } from "next/server"
 
 export async function PUT(request){
   try{
-    const {userId,role}=request.json()
+
         await connect()
+
+         const {searchParams}=new URL(request.url)
+        const role=searchParams.get('role')
+        const userId=searchParams.get('id')
+ 
            
       const {userId:adminId}=await auth()
    
@@ -14,18 +22,23 @@ export async function PUT(request){
           console.log('Unauthorized')
       }
   
-      const user=await User.findOne({clerkUserId:userId})
+      const user=await User.findOne({_id:userId})
 
-      if(!user || user.role !== "ADMIN"){
-        throw new Error("Unauthorized:Admin access required")
+      if(!user ){
+     return NextResponse.json(
+        {
+             error:"User Not Found"
+        }
+    )
       }
 
      const updateUser= await User.findByIdAndUpdate({_id:userId},{$set:{'role':role}})
+    
       revalidatePath("/admin/settings")
   if(!updateUser){
     return NextResponse.json(
         {
-             error:"No Car Provided"
+             error:"User Not Provided"
         }
     )
   }
@@ -36,9 +49,9 @@ export async function PUT(request){
             })
    
   }catch(error){
- return NextResponse.json({
-              success:false,
-              error:error.message
-             })
+   return NextResponse.json(
+          { error: `Failed to generate update response: ${error.message}` },
+          { status: 401 }
+        );
   }
 }

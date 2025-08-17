@@ -1,11 +1,15 @@
 import Dealership from "@/app/model/dealership";
 import workingHour from "@/app/model/workingHour";
+import { connect } from "@/lib/database";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(request){
     
   try{
-    const {workingHours}=request.json()
+    const workingHours=await request.json()
+    console.log(workingHours,"see hour ")
+  
     await connect()
 
     const dealership=await Dealership.findOne()
@@ -23,10 +27,11 @@ export async function POST(request){
       dealershipId: dealership._id,
     }));
 
+    console.log(docs,"see docs")
     const inserted = await workingHour.insertMany(docs);
-
-       
-    dealership.workingHours = inserted.map(w => w._id);
+console.log(inserted,"....insert")
+    dealership.workingHour = inserted.map(w => w._id);
+    console.log(dealership.workingHour,"updated hours")
     await dealership.save();
 
    

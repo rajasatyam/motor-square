@@ -8,14 +8,18 @@ export async function GET(request){
      try{
            await connect();
            
-          const dealership = await Dealership.findOne()
-      .populate({
-        path: 'workingHour',
-        select: 'dayOfWeek',
-        options: { sort: { dayOfWeek: 1 } } 
-      });
+           const dealershipData='dealershipId dayOfWeek openTime closeTime isOpen'
+          const dealership = await Dealership.findOne().populate("workingHour",dealershipData)
+            console.log(dealership,"dekho dealership")
+
+            if(dealership){
+                 return NextResponse.json({
+          success: true,
+          data:dealership
+        });
+            }
      if(!dealership){
-    
+    console.log("csk aa gye")
     const dealership = await Dealership.create({});
     
     
@@ -34,11 +38,8 @@ export async function GET(request){
     await dealership.save();
     
     
-    const result = await Dealership.findById(dealership._id)
-      .populate({
-        path: "workingHour",
-        options: { sort: { dayOfWeek: 1 } }
-      });
+    const result = await Dealership.findById(dealership._id).populate("workingHour",dealershipData)
+     
     
     console.log(result);
     
@@ -48,6 +49,8 @@ export async function GET(request){
         });
     
      }
+     
+    
     
         }catch(error){
    return NextResponse.json(

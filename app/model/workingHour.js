@@ -12,7 +12,9 @@ const workingHourSchema=new mongoose.Schema({
         enum:{
             values:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
             message:`{VALUE} is not a valid day of week`
-        }
+        },
+        trim:true,
+
     },
     openTime:{
         type:String,

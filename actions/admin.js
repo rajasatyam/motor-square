@@ -16,7 +16,7 @@ export async function getAdmin() {
     }
 
     const user=await User.findOne({clerkUserId:userId})
-
+      
 
     if(!user || user.role !== "ADMIN"){
 return {authorized:false,reason:"not-admin"}

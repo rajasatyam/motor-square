@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
-// import { checkUser } from '@/lib/checkUser'
+import { checkUser } from '@/lib/checkUser'
 import { getAdmin } from '@/actions/admin'
 
 
@@ -14,7 +14,7 @@ import { getAdmin } from '@/actions/admin'
 
 const Header = async({isAdminPage=false}) => {
 
-    // const user=await checkUser();
+    const user=await checkUser();
 
     // const isAdmin=user?.role === "ADMIN"
     const checkAdmin=await getAdmin()

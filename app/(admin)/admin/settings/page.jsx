@@ -1,5 +1,5 @@
 import React from 'react'
-import SettingForm from './_components/setttiings-form'
+import SettingForm from './_components/settings-form'
 
 export const metadata={
     title:"Settings | Vehiql Admin",

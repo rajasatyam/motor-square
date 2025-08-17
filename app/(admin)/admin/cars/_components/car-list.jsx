@@ -52,10 +52,17 @@ const Carlist = () => {
     
  
 
-    useEffect(()=>{
 
-   getCars(search)
-    },[search])
+ useEffect(() => {
+  const handler = setTimeout(() => {
+    getCars(search);
+  }, 5000);
+
+  
+  return () => {
+    clearTimeout(handler);
+  };
+}, [search]);
 
     const handleSubmit=async(e)=>{
         e.preventDefault()
@@ -184,8 +191,8 @@ const Carlist = () => {
 
   <TableHeader>
     <TableRow>
-      <TableHead className="w-12"></TableHead>
-      <TableHead>Make & Model</TableHead>
+      <TableHead className="w-20"></TableHead>
+      <TableHead className="mr-2">Make & Model</TableHead>
       <TableHead>Year</TableHead>
       <TableHead>Price</TableHead>
       <TableHead>Status</TableHead>
@@ -197,15 +204,15 @@ const Carlist = () => {
      {carsData?.map((car)=>{
       return (
          <TableRow key={car?._id}>
-      <TableCell>
-                        <div className="w-10 h-10 rounded-md overflow-hidden">
+      <TableCell className="mr-2">
+                        <div className=" rounded-md ">
                           {car?.images && car?.images?.length > 0 ? (
                             <Image
                               src={car?.images[0]?.url}
                               alt={`${car?.make} ${car?.model}`}
-                              height={40}
-                              width={40}
-                              className="w-full h-full object-cover"
+                              height={70}
+                              width={70}
+                              className="w-full h-full object-cover "
                               priority
                             />
                           ) : (
