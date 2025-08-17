@@ -50,7 +50,7 @@ const [isUpdatingRole,setIsUpdatingRole]=useState(false)
     try{
         const token = await getToken()
     console.log(token);
-    const response=await fetch('http://localhost:3000/api/getUserById',{
+    const response=await fetch('/api/getUserById',{
         method:'GET',
         headers:{
             "Authorization":`Bearer ${token}`
@@ -79,7 +79,7 @@ const [isUpdatingRole,setIsUpdatingRole]=useState(false)
 
 
   const getUser=async()=>{
-      const response=await fetch(`http://localhost:3000/api/getUserByName?search=${userSearch}`)
+      const response=await fetch(`/api/getUserByName?search=${userSearch}`)
       const result=await response.json()
       console.log(result,"result vaibhav")
       setFetchResult(result)
@@ -103,7 +103,7 @@ const [isUpdatingRole,setIsUpdatingRole]=useState(false)
   const getDealershipInfo=async()=>{
     try{
         const token = await getToken()
-           const response=await fetch('http://localhost:3000/api/getDealershipInfo',{
+           const response=await fetch('/api/getDealershipInfo',{
         method:'GET',
         headers:{
             "Authorization":`Bearer ${token}`
@@ -155,7 +155,7 @@ const handleMakeAdmin=async(user)=>{
 
   const role="ADMIN"
   
- const response=await fetch(`http://localhost:3000/api/updateUserRole?role=${role}&id=${id}`,{
+ const response=await fetch(`/api/updateUserRole?role=${role}&id=${id}`,{
   method:'PUT'
  })
  const result=await response.json()
@@ -176,7 +176,7 @@ const handleRemoveAdmin=async(user)=>{
 
   const role="USER"
   
- const response=await fetch(`http://localhost:3000/api/updateUserRole?role=${role}&id=${id}`,{
+ const response=await fetch(`/api/updateUserRole?role=${role}&id=${id}`,{
     method:'PUT'
  })
  const result=await response.json()
@@ -213,7 +213,7 @@ const handleWorkingHourChange=(index,field,value)=>{
 const handleSaveHours=async()=>{
     try{
         console.log(workingHours,"......")
-   const response=await fetch(`http://localhost:3000/api/saveWorkingHours`,{
+   const response=await fetch(`/api/saveWorkingHours`,{
     method:'POST',
     headers: {
     "Content-Type": "application/json",  

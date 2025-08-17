@@ -317,7 +317,7 @@ const onSubmit=async(data)=>{
   });
 
   try{
-const response = await fetch("http://localhost:3000/api/files/upload", {
+const response = await fetch("/api/files/upload", {
   method: "POST",
   body: formData,
 });

@@ -33,16 +33,9 @@ const Carlist = () => {
    const [isUpdating,setIsUpdating]=useState(false)
 
 
-    // const {
-    //   loading:loadingCars,
-    //   fn:fetchCars,
-    //   data:carsData,
-    //   error:carError,
-  
-    // }=useFetch(getCars)
 
     const getCars=async(search)=>{
-            const response=  await fetch(`http://localhost:3000/api/getCars?search=${search}`)
+            const response=  await fetch(`/api/getCars?search=${search}`)
             const result=await response.json()
             console.log(result,"api result dekho")
             setCarsData(result?.serializedCars)
@@ -117,7 +110,7 @@ const Carlist = () => {
       }
 
 
-        const response=  await fetch(`http://localhost:3000/api/updateCar?id=${_id}&featured=${updatedFeatured}&status=${updatedStatus}`,{
+        const response=  await fetch(`/api/updateCar?id=${_id}&featured=${updatedFeatured}&status=${updatedStatus}`,{
           method:'PUT'
         })
      
@@ -136,7 +129,7 @@ const Carlist = () => {
    
       const {_id}=carToDelete
        console.log("id.....",_id)
-        const response=  await fetch(`http://localhost:3000/api/deleteCar?id=${_id}`,{
+        const response=  await fetch(`/api/deleteCar?id=${_id}`,{
           method:'DELETE'
         })
      
