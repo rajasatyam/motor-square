@@ -32,8 +32,8 @@ export async function PUT(request){
     )
       }
 
-     const updateUser= await User.findByIdAndUpdate({_id:userId},{$set:{'role':role}})
-    
+     const updateUser= await User.findByIdAndUpdate({_id:userId},{$set:{'role':role}}, { new: true })
+    console.log(updateUser,"pkkkkk")
       revalidatePath("/admin/settings")
   if(!updateUser){
     return NextResponse.json(
@@ -42,10 +42,11 @@ export async function PUT(request){
         }
     )
   }
+  const finalUser=await User.find({})
   return NextResponse.json({
              success:true,
              message:"User Role Updated Successfully",
-             data:updateUser
+             data:finalUser
             })
    
   }catch(error){

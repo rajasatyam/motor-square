@@ -28,16 +28,18 @@ export async function PUT(request){
     )
   }
   console.log(updateCar)
+  const finalUpdatedCar=await Car.find({})
 
     return NextResponse.json({
            success:true,
            message:"Car Updated Successfully",
-           data:updateCar
+           data:finalUpdatedCar
           })
     }catch(error){
             console.error("Error Deleting Cars",error)
              return NextResponse.json({
               success:false,
+            
               error:error.message
              })
     }

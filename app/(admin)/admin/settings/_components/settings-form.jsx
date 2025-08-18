@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -43,6 +44,8 @@ const [user,setUser]=useState()
 const [fetchingUser,setIsFetchingUser]=useState(true)
 const [fetchResults,setFetchResult]=useState([])
 const [isUpdatingRole,setIsUpdatingRole]=useState(false)
+const [updateDialogOpen,setUpdateDialogOpen]=useState(false)
+const [currentUser,setCurrentUser]=useState(null)
  const { getToken } = useAuth();
 
  
@@ -159,9 +162,12 @@ const handleMakeAdmin=async(user)=>{
   method:'PUT'
  })
  const result=await response.json()
- console.log(result)
+ console.log(result,"cskkkkkk thala")
  if(response.ok){
   toast.success(`${user.name} successfully updated to admin`)
+  setUser(result?.data)
+  setUpdateDialogOpen(false)
+  setIsUpdatingRole(false)
  }
     }catch(error){
       toast.error("Error Updating User To Admin"+error.message)
@@ -180,9 +186,13 @@ const handleRemoveAdmin=async(user)=>{
     method:'PUT'
  })
  const result=await response.json()
- console.log(result)
+ console.log(result,"mirohit")
  if(response.ok){
   toast.success(`${user.name} successfully removed from admin`)
+  setUser(result?.data)
+
+  setUpdateDialogOpen(false)
+  setIsUpdatingRole(false)
  }
     }catch(error){
       toast.error("Error Removing  User From Admin"+error.message)
@@ -236,6 +246,10 @@ const handleSaveHours=async()=>{
     
  
 }
+
+useEffect(()=>{
+  console.log("dekho currwent user",currentUser)
+},[])
   return (
     <div className='space-y-6'>
       <Tabs defaultValue="hours" className="">
@@ -260,11 +274,11 @@ const handleSaveHours=async()=>{
   </CardHeader>
   <CardContent>
     <div className='space-y-4'>
-      {workingHours.map((day,index)=>{
+      {workingHours?.map((day,index)=>{
         return (
             <div key={day.dayOfWeek || day.value} className='grid grid-cols-12 gap-4 items-center py-3 px-4 rounded-lg hover:bg-slate-50'>
               <div  className='col-span-3 md:col-span-2'>
-                 <div className='font-medium'>{day.dayOfWeek || day.label}</div>
+                 <div className='font-medium -ml-8 sm:-ml-5'>{day.dayOfWeek || day.label}</div>
 
               </div>
 
@@ -419,8 +433,10 @@ const handleSaveHours=async()=>{
                    variant="outline"
                    size="sm"
                    className="text-red-600"
-                   onClick={()=>handleRemoveAdmin(user)}
-                   disabled={isUpdatingRole}
+                   onClick={()=>{setUpdateDialogOpen(true)
+                    setCurrentUser(user)
+                   }}
+                  
                   >
                 <UserX className='h-4 w-4 mr-2' />
                   Remove Admin
@@ -429,7 +445,11 @@ const handleSaveHours=async()=>{
                   <Button
                    variant="outline"
                    size="sm"
-                   onClick={()=>handleMakeAdmin(user)}
+                   onClick={()=>{ setUpdateDialogOpen(true)
+                  
+                    setCurrentUser(user)
+                    
+                  }}
                    disabled={isUpdatingRole}
                   >
                     <Shield className='h-4 w-4 mr-2' />
@@ -440,6 +460,8 @@ const handleSaveHours=async()=>{
 
          </TableCell>
          </TableRow>
+
+
       ))
      )}
       
@@ -475,6 +497,58 @@ const handleSaveHours=async()=>{
 </Card>
   </TabsContent>
 </Tabs>
+
+<Dialog open={updateDialogOpen} onOpenChange={setUpdateDialogOpen}>
+
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>{
+        currentUser?.role === "ADMIN"?`Confirm Remove ${currentUser?.name} From ${currentUser?.role}`: `Confirm Grant Admin Access To ${currentUser?.name}`
+        
+        } </DialogTitle>
+      <DialogDescription>
+         {
+           currentUser?.role === "ADMIN"?`Are you sure you want to remove ${currentUser?.name} From ${currentUser?.role} ? This action cannot be undone`
+           :`Are you sure you want to grant admin access to ${currentUser?.name} 
+           This action cannot be undone`
+
+
+         }
+      </DialogDescription>
+    </DialogHeader>
+
+    <DialogFooter>
+      <Button
+      variant='outline'
+      onClick={()=>{
+        
+        setUpdateDialogOpen(false)
+        setCurrentUser(null)
+      
+      }}
+       disabled={isUpdatingRole}
+
+      >
+       Cancel
+      </Button>
+
+      <Button
+       variant="destructive"
+       onClick={()=>{
+        setIsUpdatingRole(true)
+        currentUser?.role==="ADMIN"?handleRemoveAdmin(currentUser): handleMakeAdmin(currentUser)
+       }}
+      
+      >
+        {isUpdatingRole ?(
+           <> Updating...</>
+        ):(
+         'Update Role'
+        )}
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
     </div>
   )
 }

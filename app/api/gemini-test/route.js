@@ -15,10 +15,11 @@ export async function POST(request){
       if(!process.env.GEMINI_API_KEY){
         throw new Error("Gemini Api is not configured")
       }
-     const body=await request.json()
-     const {file}=body;
+       const formData = await request.formData();
+    const file = formData.get("file");
+    console.log(file,"see pk file")
 
-      if (!file || !file.data || !file.type) {
+      if (!file || !file.type) {
       return NextResponse.json({ error: "Missing file data" }, { status: 400 });
     }
       const ai = new GoogleGenAI({

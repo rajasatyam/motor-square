@@ -113,11 +113,15 @@ const Carlist = () => {
         const response=  await fetch(`/api/updateCar?id=${_id}&featured=${updatedFeatured}&status=${updatedStatus}`,{
           method:'PUT'
         })
+        const result=await response.json()
+        console.log(result,'resultpk')
      
           if(response.ok){
             setIsUpdating(true)
           toast.success("Car Updated Successfully")
-          window.location.reload()
+          // window.location.reload()
+          setCarsData(result?.data)
+          setIsUpdating(false)
           }
 
        

@@ -16,6 +16,8 @@ const [imagePreview,setImagePreview]=useState("")
 const [searchImage,setSearchImage]=useState(null)
 const [isUploading,setIsUploading]=useState(false)
 
+
+
 const router=useRouter();
 
 const handleImageSearch=async(e)=>{
@@ -23,6 +25,37 @@ e.preventDefault();
 if(!searchImage){
   toast.error("Please Upload The Image First")
 }
+
+console.log("dekho image search",searchImage)
+try{
+
+  const formData=new FormData()
+  formData.append("file",searchImage)
+   const response=await fetch(`/api/gemini-test`,{
+    method:"POST",
+      body:formData
+        
+      
+})
+
+const result=await response.json()
+  console.log(result,"gemini response")
+  const params=new URLSearchParams()
+  if(result?.carDetails?.make) params.set("make",result.carDetails.make)
+     if(result?.carDetails?.bodyType) params.set("bodyType",result.carDetails.bodyType)
+
+       if(result?.carDetails?.color) params.set("color",result.carDetails.color)
+        setTimeout(()=>{
+      router.push(`/cars?${params.toString()}`)
+      },1000)
+        
+}catch(error){
+  toast.error("error fetching ai response"+error)
+  console.log(error)
+}
+
+
+
 }
   const handleTextSubmit=async(e)=>{
 e.preventDefault();
@@ -33,7 +66,7 @@ return;
 router.push(`/cars?search=${encodeURIComponent(searchTerm)}`)
   }
    const onDrop = (acceptedFiles) => {
-    // Do something with the files
+ 
 
     const file=acceptedFiles[0];
     console.log(file)
@@ -42,7 +75,7 @@ router.push(`/cars?search=${encodeURIComponent(searchTerm)}`)
           return
     }
     setIsUploading(true)
-    setSearchImage(true)
+    setSearchImage(file)
 
     const reader=new FileReader()
 
@@ -77,7 +110,7 @@ type="text"
 placeholder='Enter make,model or use our AI image search...'
 value={searchTerm}
 onChange={(e)=>setSearchTerm(e.target.value)}
-className='pl-10 pr-12 py-6 w-full rounded-full border-gray-300 bg-white/95 backdrop-blur-sm'
+className='pl-10 pr-12 py-6 w-full rounded-full border-gray-300 bg-white/95 backdrop-blur-sm ml-2 mr-1'
 />
 
 <div className='absolute right-[100px]'>
@@ -102,14 +135,14 @@ className='absolute right-2 rounded-full  '
  {isImageSearchActive && (
   <div>
     <form onSubmit={handleImageSearch}>
-      <div className='border-2 border-dashed border-gray-300 rounded-3xl p-6 text-center mt-3'>{imagePreview?<div className='flex flex-col items-center'>
+      <div className='border-2 border-dashed border-gray-300 rounded-3xl p-6 text-center mt-3   mx-2'>{imagePreview?<div className='flex flex-col items-center'>
 
         <img 
         src={imagePreview}
         alt="Car Preview"
         className='h-40 object-contain mb-4'
         />
- n
+ 
         <Button
         variant="outline"
         onClick={()=>{
@@ -121,11 +154,11 @@ className='absolute right-2 rounded-full  '
          Remove Image
         </Button>
       </div>:(
-         <div {...getRootProps()} className='cursor-pointer'>
+         <div {...getRootProps()} className='cursor-pointer '>
       <input {...getInputProps()} />
       <div className='flex flex-col items-center '>
 
-<Upload className='h-12 w-12 text-gray-400 mb-2'/>
+<Upload className='h-12 w-12 text-gray-400 mb-2 '/>
       <p className='text-gray-500 mb-2'>
   {
         isDragActive && !isDragReject ?
@@ -150,7 +183,8 @@ className='absolute right-2 rounded-full  '
       {imagePreview && (
         <Button
         type="submit"
-        className="w-full mt-2"
+        variant="outline"
+        className="w-[97%] mt-2 "
         disabled={isUploading}
         
         >
