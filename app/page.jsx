@@ -1,15 +1,35 @@
+'use client'
+
 import CarCard from "@/components/CarCard";
 import HomeSearch from "@/components/home-search";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 
-import { bodyTypes, carMakes, faqItems, featuredCars } from "@/lib/data";
+import { bodyTypes, carMakes, faqItems } from "@/lib/data";
 import { SignedOut } from "@clerk/nextjs";
 import { Calendar, Car, ChevronRight, Shield } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+
+  const [featuredCars,setFeaturedCars]=useState()
+
+  const search=""
+     const getCars=async(search)=>{
+            const response=  await fetch(`/api/getCars?search=`)
+            const result=await response.json()
+            console.log(result,"api result dekho")
+            setFeaturedCars(result?.serializedCars)
+      
+          console.log(featuredCars,"car dekho  ")
+          
+    }
+useEffect(()=>{
+  getCars()
+},[])
+  
   return (
  <div className="pt-20 flex flex-col">
  <section className="relative py-16 md:py-28 dotted-background">
@@ -37,8 +57,9 @@ export default function Home() {
   </div>
 
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-    {featuredCars.map((car)=>(
-      <CarCard key={car.id} car={car}/>
+    {featuredCars?.map((car)=>(
+      
+    car?.featured ? <CarCard key={car.id} car={car} /> : null
     ))}
   </div>
 </div>

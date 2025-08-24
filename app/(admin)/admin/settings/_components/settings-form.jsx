@@ -42,7 +42,7 @@ const [workingHours,setWorkingHours]=useState(
 const [userSearch,setUserSearch]=useState("")
 const [user,setUser]=useState()
 const [fetchingUser,setIsFetchingUser]=useState(true)
-const [fetchResults,setFetchResult]=useState([])
+const [fetchResults,setFetchResult]=useState([])          
 const [isUpdatingRole,setIsUpdatingRole]=useState(false)
 const [updateDialogOpen,setUpdateDialogOpen]=useState(false)
 const [currentUser,setCurrentUser]=useState(null)
@@ -82,10 +82,22 @@ const [currentUser,setCurrentUser]=useState(null)
 
 
   const getUser=async()=>{
-      const response=await fetch(`/api/getUserByName?search=${userSearch}`)
+      try{
+             const response=await fetch(`/api/getUserByName?search=${userSearch}`)
       const result=await response.json()
       console.log(result,"result vaibhav")
+      setIsFetchingUser(true)
+     setUser(result?.user)
       setFetchResult(result)
+      if(response.ok){
+        setIsFetchingUser(false)
+        console.log(user,"yash")
+      }
+      }catch(error){
+        toast.error("error fetching user",error)
+      }
+
+
   }
 
   useEffect(()=>{
@@ -147,7 +159,10 @@ if(result?.data?.workingHour && result?.data?.workingHour?.length>0){
 
 useEffect(()=>{
     getDealershipInfo() 
-    fetchUsers()
+    if(userSearch===""){
+fetchUsers()
+    }
+    
 },[])
 
 
@@ -344,7 +359,6 @@ useEffect(()=>{
             </div>
         )
       })}
-
     </div>
 
 
@@ -369,7 +383,13 @@ useEffect(()=>{
       <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
       <Input type="search" placeholder="Search users..." className="pl-9 w-full"
        value={userSearch}
-       onChange={(e)=>setUserSearch(e.target.value)}
+       onChange={(e)=>{
+        const value=e.target.value
+        setUserSearch(value)
+        if(value===""){
+          fetchUsers()
+        }
+       }}
       
       />
     </div>
@@ -379,7 +399,7 @@ useEffect(()=>{
       
       <div className='py-12 flex justify-center'>
         <Loader2  className="h-8 w-8 animate-spin text-gray-400"/>
-      </div>):( user && userSearch === "" ?(
+      </div>):( user  ?(
           <>
           <Table>
   <TableCaption>A list of your recent invoices.</TableCaption>
@@ -474,7 +494,7 @@ useEffect(()=>{
           
           </> 
 
-      ):(
+      ):( 
        <> 
        <div className='py-12 text-center'>
           <Users className='h-12 w-12 text-gray-300 mx-auto mb-4' />

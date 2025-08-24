@@ -24,7 +24,7 @@ const CarCard = ({car}) => {
     <Card className="overflow-hidden hover:shadow-lg transition group py-0">
         <div className='relative h-48'>{car.images && car.images.length>0 ?(
 <div className='relative w-full h-full '>
-<Image src={car.images[0]} alt={`${car.make} ${car.model}`}
+<Image src={car.images[0].url} alt={`${car.make} ${car.model}`}
 fill className='object-cover group-hover:scale-105 transition duration-300'/>
 </div>
         ):(

@@ -41,6 +41,7 @@ const Carlist = () => {
             setCarsData(result?.serializedCars)
             setIsLoadingCars(false)
           console.log(carsData,"car dekho  ")
+          
     }
     
  
@@ -136,11 +137,13 @@ const Carlist = () => {
         const response=  await fetch(`/api/deleteCar?id=${_id}`,{
           method:'DELETE'
         })
-     
+        const result=await response.json()
           if(response.ok){
           toast.success("Car Deleted Successfully")
           setDeleteDialogOpen(false)
           setCarToDelete(null)
+          setCarsData(result?.data)
+          console.log("del response",result)
           }
           if(!response.ok){
             toast.error("Car Not Deleted Successfully")
