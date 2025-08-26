@@ -35,7 +35,7 @@ const Carlist = () => {
 
 
     const getCars=async(search)=>{
-            const response=  await fetch(`/api/getCars?search=${search}`)
+            const response=  await fetch(`/api/getCarsBySearch?search=${search}`)
             const result=await response.json()
             console.log(result,"api result dekho")
             setCarsData(result?.serializedCars)

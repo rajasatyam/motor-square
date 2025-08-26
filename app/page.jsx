@@ -18,7 +18,7 @@ export default function Home() {
 
   const search=""
      const getCars=async(search)=>{
-            const response=  await fetch(`/api/getCars?search=`)
+            const response=  await fetch(`/api/getCarsBySearch?search=`)
             const result=await response.json()
             console.log(result,"api result dekho")
             setFeaturedCars(result?.serializedCars)

@@ -76,7 +76,7 @@ const [currentUser,setCurrentUser]=useState(null)
 
   useEffect(() => {
   console.log(user, "updated user state")
-  console.log(user,"dekho pk chanchal")
+  console.log(user,"dekho pk ")
   console.log(fetchingUser,"user fectch state")
 }, [user])
 
@@ -262,8 +262,30 @@ const handleSaveHours=async()=>{
  
 }
 
+ const getCarByFilter=async()=>{
+    try{
+        const token = await getToken()
+           const response=await fetch('/api/getCarByFilters?search=toyota&make=Porsche&minPrice=10000&maxPrice=50000&page=1&limit=6&sortBy=priceAsc',{
+        method:'GET',
+        headers:{
+            "Authorization":`Bearer ${token}`
+        }
+    })
+
+    const result=await response.json()
+    console.log("seefilter",result)
+    
+
+
+    }catch(error){
+     console.error("Error fetching users:", error)
+}
+ 
+  }
+
 useEffect(()=>{
-  console.log("dekho currwent user",currentUser)
+  getCarByFilter()
+  // console.log("dekho currwent user",currentUser)
 },[])
   return (
     <div className='space-y-6'>
