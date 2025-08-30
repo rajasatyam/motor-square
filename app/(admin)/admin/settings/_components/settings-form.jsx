@@ -265,7 +265,7 @@ const handleSaveHours=async()=>{
  const getCarByFilter=async()=>{
     try{
         const token = await getToken()
-           const response=await fetch('/api/getCarByFilters?search=toyota&make=Porsche&minPrice=10000&maxPrice=50000&page=1&limit=6&sortBy=priceAsc',{
+           const response=await fetch('/api/getCarByFilters?search=&make=Porsche&minPrice=10000&maxPrice=900000&page=1&limit=6&sortBy=priceDesc',{
         method:'GET',
         headers:{
             "Authorization":`Bearer ${token}`

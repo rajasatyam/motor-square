@@ -4,6 +4,7 @@ import User from "@/app/model/user";
 import { connect } from "@/lib/database";
 import { serializedCarData } from "@/lib/helper";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { SortAsc } from "lucide-react";
 import { NextResponse } from "next/server";
 
 export async function GET(request){
@@ -16,8 +17,8 @@ export async function GET(request){
         const bodyType=searchParams.get('bodyType')
         const fuelType=searchParams.get('fuelType')
         const transmission=searchParams.get('transmission')
-        const maxPrice=parseFloat(searchParams.get('maxPrice')) || 0;
-        const minPrice=parseFloat(searchParams.get('minPrice')) || Number.MAX_SAFE_INTEGER;
+        const maxPrice=parseFloat(searchParams.get('maxPrice')) || Number.MAX_SAFE_INTEGER;
+        const minPrice=parseFloat(searchParams.get('minPrice')) || 0;
         const sortBy=searchParams.get('sortBy') || "newest";
         const page=searchParams.get('page') || 1;
         const limit=searchParams.get('skip') || 6;
@@ -31,8 +32,8 @@ export async function GET(request){
         console.log(search,"dekho search")
                
                const currUser=await currentUser();
-              //  console.log(currUser,"dekho current usert")
-              //  console.log(currUser.id,"yha aa gye")
+               console.log(currUser,"dekho current usert")
+              
            
                if(!currUser){
                 
@@ -44,27 +45,37 @@ export async function GET(request){
                }
 
                const user=await User.findOne({clerkUserId:currUser.id})
-                if(search){
-      where.$or=[
-        {make:{$regex:search,$options:'i'}},
-        {model:{$regex:search,$options:'i'}},
-        {color:{$regex:search,$options:'i'}}
-      ]
-    }
+ 
 
-    if(make) where.make={$regex:`${make}$`,$options:'i'}
+    if(make) where.make={$regex:make,$options:'i'}
+
+  
     if (bodyType) where.bodyType = { $regex: `^${bodyType}$`, $options: "i" };
     if (fuelType) where.fuelType = { $regex: `^${fuelType}$`, $options: "i" };
    if (transmission) where.transmission = { $regex: `^${transmission}$`, $options: "i" };
-    if(maxPrice && minPrice) where.price={$gte:minPrice,$lte:minPrice}
+    if(maxPrice && minPrice) where.price={$gte:minPrice,$lte:maxPrice}
 
-let sort={createdAt:1}
+let sort={createdAt:-1}
 
 if(sortBy === "priceAsc") sort={price:1}
 if(sortBy === 'priceDesc') sort={price:-1}
 
-console.log("Final Query:", where, "Sort:", sort);
-const car=await Car.find(where).sort(sort).skip((page-1)*limit)
+console.log(sortBy,"see sorting")
+console.log(sort,"...........")
+
+  // if(search){
+  //     where.$or=[
+  //       {model:{$regex:search,$options:'i'}},
+  //       {color:{$regex:search,$options:'i'}}
+  //     ]
+  //   }
+
+  //   if(!make && search) where.$or.push( {make:{$regex:search,$options:'i'}})
+
+
+console.log("Final Query:", where);
+const car=await Car.find(where).sort(sort)
+// const car=await Car.find(where)
 const total = await Car.countDocuments(where);
 
 console.log(car,"see car")
