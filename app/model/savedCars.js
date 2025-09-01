@@ -5,13 +5,13 @@ const userSavedCarSchema=new mongoose.Schema({
         type:mongoose.SchemaTypes.ObjectId,
         ref:"User",
         required:true,
-        index:true
+   
     },
     carId:{
         type:mongoose.SchemaTypes.ObjectId,
         ref:"Car",
         required:true,
-        index:true
+    
     },
   
 

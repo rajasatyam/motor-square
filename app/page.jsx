@@ -59,7 +59,7 @@ useEffect(()=>{
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
     {featuredCars?.map((car)=>(
       
-    car?.featured ? <CarCard key={car.id} car={car} /> : null
+    car?.featured ? <CarCard key={car._id} car={car} /> : null
     ))}
   </div>
 </div>

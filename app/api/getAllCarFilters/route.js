@@ -85,7 +85,7 @@ const fuelType=await Car.aggregate([
       { 
         $group:{
          _id: null,
-       fuelTypes: { $addToSet: "$_id" } }
+       fuelTypes: { $addToSet: "$_id" } } //fuelTypes m id add kr rhe hai
     }, 
     {
         $project:{

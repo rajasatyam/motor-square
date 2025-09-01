@@ -63,14 +63,14 @@ if(sortBy === 'priceDesc') sort={price:-1}
 console.log(sortBy,"see sorting")
 console.log(sort,"...........")
 
-  // if(search){
-  //     where.$or=[
-  //       {model:{$regex:search,$options:'i'}},
-  //       {color:{$regex:search,$options:'i'}}
-  //     ]
-  //   }
+  if(search){
+      where.$or=[
+        {model:{$regex:search,$options:'i'}},
+        {color:{$regex:search,$options:'i'}}
+      ]
+    }
 
-  //   if(!make && search) where.$or.push( {make:{$regex:search,$options:'i'}})
+    if(!make && search) where.$or.push( {make:{$regex:search,$options:'i'}})
 
 
 console.log("Final Query:", where);
