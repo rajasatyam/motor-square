@@ -32,10 +32,10 @@ console.log(checkAdmin?.user?.role,"piyush")
    <header className='fixed top-0 w-full bg-white/80 backdrop-blur-xl flex z-50 border-b justify-between'>
     <nav className=' px-4 py-4 '>
         <Link href={isAdminPage?"/admin":"/"} className='flex'>
-        <Image src={"/logo.png"} alt="Vehiql Logo"
+        <Image src={"/logo-pk.png"} alt="Vehiql Logo"
         width={200}
-        height={60}
-        className='h-12 w-auto object-contain'
+        height={100}
+        className='h-[3.8rem] w-auto object-contain '
         />
         {isAdminPage && (
             <span className='text-xs font-extralight'>Admin</span>
@@ -43,7 +43,7 @@ console.log(checkAdmin?.user?.role,"piyush")
         </Link>
     </nav>
 
-    <div className='flex items-center space-x-1'>
+    <div className='flex items-center space-x-1 '>
         {isAdminPage?(
                 <Link href="/">
               <Button className='flex items-center gap-2' variant="outline">

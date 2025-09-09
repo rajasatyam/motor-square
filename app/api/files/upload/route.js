@@ -18,10 +18,10 @@ export async function POST(request){
     await connect()
 
    const formData= await request.formData()
-      console.log(formData,"dekho jo bhja hai")
+      // console.log(formData,"dekho jo bhja hai")
 
       const files=formData.getAll("images");
-      console.log(files,"file piyush")
+      // console.log(files,"file piyush")
 
       if(!files && files.length===0){
         return NextResponse.error({
@@ -53,7 +53,7 @@ const uploadedImage=await imagekit.upload({
     uniqueFilename:false
 })
 
-    console.log("Image uploaded:", uploadedImage);
+    // console.log("Image uploaded:", uploadedImage);
 
     imageUrls.push({
     fileId: uploadedImage.fileId,
@@ -62,7 +62,7 @@ const uploadedImage=await imagekit.upload({
 
      
     } 
- console.log(imageUrls,"see all urls");
+//  console.log(imageUrls,"see all urls");
     const data={}
 
     for(const [key,value] of formData.entries())
@@ -82,6 +82,17 @@ const uploadedImage=await imagekit.upload({
     }
 
 const { make, model, year, price, mileage, color, fuelType, transmission, bodyType, seats, description, status, featured } = data;
+
+const existingCar=await Car.findOne({$and:[{make:make},{model:model}]})
+
+console.log(existingCar,"dekho exist")
+
+if(existingCar){
+  return NextResponse.json(
+    { error: "Car Already Exist" },
+    { status: 409 }
+  );
+}
 
     const car=new Car({
         make,

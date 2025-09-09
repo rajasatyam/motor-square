@@ -161,7 +161,7 @@ export async function addCar(formData){
  
 
       const files=formData.getAll("images");
-      console.log(files,"file piyush")
+      // console.log(files,"file piyush")
 
       if(!files && files.length===0){
         return {
@@ -193,7 +193,7 @@ const uploadedImage=await imagekit.upload({
     uniqueFilename:false
 })
 
-    console.log("Image uploaded:", uploadedImage);
+    // console.log("Image uploaded:", uploadedImage);
 
     imageUrls.push({
     fileId: uploadedImage.fileId,
@@ -222,6 +222,7 @@ const uploadedImage=await imagekit.upload({
     }
 
 const { make, model, year, price, mileage, color, fuelType, transmission, bodyType, seats, description, status, featured } = data;
+
 
     const car=new Car({
         make,
