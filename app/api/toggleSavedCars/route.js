@@ -25,7 +25,7 @@ export async function POST(request){
               }
           
               const user=await User.findOne({clerkUserId:userId})
-
+              console.log("dekho user ",user)
               if(!user){
                 throw new Error("User Not Found")
               }
@@ -56,11 +56,15 @@ export async function POST(request){
                 })
               }
  
+
                  await userSavedCar.insertOne({
                     userId:user.id,
                     carId:carId
                  })
+               
+                 await Car.updateOne({_id:carId},{$addToSet:{savedBy:user._id}})
 
+                 await User.updateOne({_id:user._id},{$addToSet:{savedCars:carId}})
             const finalSavedCars=await userSavedCar.find({
                 userId:user.id
             }).populate("userId","name")
@@ -69,10 +73,10 @@ export async function POST(request){
                  return NextResponse.json({
                             success:true,
                             message:"Car Added To Favourite",
-                            data:finalSavedCars
+                            data:finalSavedCars,
+                            saved:true
                            })
 
-               
     }catch(error){
                    return NextResponse.json({
                     success:false,

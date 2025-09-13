@@ -83,10 +83,15 @@ console.log(total,"see total")
 let wishlisted=new Set()
     if(user){
         const savedCars=await userSavedCar.find({  userId:user._id }).select("carId")
-             wishlisted = new Set(savedCars.map((saved) => saved.carId));
+        console.log(savedCars,"save")
+             wishlisted = new Set(savedCars.map((saved) => saved.carId.toString()));
     }
 
 const serializedCars = car.map((car) => serializedCarData(car, wishlisted.has(car._id.toString())) );
+console.log("wishlisted set:", Array.from(wishlisted));
+
+
+console.log(serializedCars,"seral")
     return NextResponse.json({
       success: true,
       data: serializedCars,

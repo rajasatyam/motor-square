@@ -68,7 +68,7 @@ const carSchema=new mongoose.Schema({
     ],
    savedBy: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserSavedCar',
+    ref: 'User',
   }],
     testDriveBookings: [{
       type: mongoose.Schema.Types.ObjectId,

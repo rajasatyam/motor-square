@@ -3,21 +3,49 @@
 import React, { useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import Image from 'next/image'
-import { CarIcon, Heart } from 'lucide-react'
+import { CarIcon, Heart, Loader2 } from 'lucide-react'
 import { Button } from './ui/button'
 import { is } from 'date-fns/locale'
 import { Badge } from './ui/badge'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@clerk/nextjs'
+import { toast } from 'sonner'
 
 
 const CarCard = ({car}) => {
+      
 
     const [isSaved,setSaved]=useState(car.wishlisted)
-
+    const [isToggling,setIsToggling]=useState(false)
+    const [userFavourite,setUserFavourite]=useState(null)
+ 
     const router=useRouter()
+    const {isSignedIn}=useAuth()
+    console.log("dekho signed",isSignedIn)
+    console.log(car.wishlisted,"car wish")
+  
+    const handleToggleSave=async(e)=>{
+         setIsToggling(true)
+      if(!isSignedIn){
+          toast.error("Please sing in to save cars")
+          router.push('/sign-in')
+          return;
+      }
+      if(isToggling)  return
 
-    const handleToggleSave=async()=>{
+    
+        const response=await fetch(`/api/toggleSavedCars?carId=${car._id}`,{
+            method:"POST"
+        })
 
+        const result=await response.json()
+          setUserFavourite(result)
+        if(response.ok) {
+            setIsToggling(false)
+            toast.success(result?.message)
+            result.saved===true?setSaved(true):setSaved(false)
+        }
+     
     }
     
   return (
@@ -36,7 +64,12 @@ fill className='object-cover group-hover:scale-105 transition duration-300'/>
         <Button varient="ghost" size="icon" className={`absolute top-2 right-2 bg-white/90 rounded-full p-1.5 ${isSaved?"text-red-500 hover:text-red-600 ":"text-gray-600 hover:text-gray-900"}`
     
     } onClick={handleToggleSave}>
-            <Heart className={isSaved?"fill-current":""} size={20}/>
+        {isToggling?(
+            <Loader2 className="h-4 w-4 animate-spin"/>
+        ):(
+              <Heart className={isSaved?"fill-current":""} size={20}/>
+        )}
+           
         </Button>
         </div>
 
