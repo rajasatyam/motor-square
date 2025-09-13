@@ -134,7 +134,7 @@ const Carlist = () => {
    
       const {_id}=carToDelete
        console.log("id.....",_id)
-        const response=  await fetch(`/api/deleteCar?id=${_id}`,{
+        const response=  (`/api/deleteCar?id=${_id}`,{
           method:'DELETE'
         })
         const result=await response.json()

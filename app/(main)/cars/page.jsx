@@ -13,7 +13,7 @@ const CarsPage = () => {
 
 
   return (
-    <div className='comntainer mx-auto px-4 py-12'>
+    <div className='comntainer mx-auto px-4 -my-4'>
       <h1 className='text-6xl mb-4 gradient-title'>Browse Cars</h1>
 
       <div>

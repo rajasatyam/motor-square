@@ -33,9 +33,9 @@ console.log(checkAdmin?.user?.role,"piyush")
     <nav className=' px-4 py-4 '>
         <Link href={isAdminPage?"/admin":"/"} className='flex'>
         <Image src={"/logo-pk.png"} alt="Vehiql Logo"
-        width={200}
+        width={250}
         height={100}
-        className='h-[3.8rem] w-auto object-contain '
+        className='h-[3.2rem] w-auto object-contain '
         />
         {isAdminPage && (
             <span className='text-xs font-extralight'>Admin</span>
