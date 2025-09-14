@@ -264,10 +264,7 @@ const handleSaveHours=async()=>{
 
 
 
-useEffect(()=>{
-  getCarByFilter()
-  // console.log("dekho currwent user",currentUser)
-},[])
+
   return (
     <div className='space-y-6'>
       <Tabs defaultValue="hours" className="">
