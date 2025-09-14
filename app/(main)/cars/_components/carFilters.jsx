@@ -8,6 +8,7 @@ import CarFilterControl from './carFilterControl'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
 import { SelectValue } from '@radix-ui/react-select'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const CarFilters = () => {
 
@@ -15,14 +16,26 @@ const CarFilters = () => {
     const pathname=usePathname()
     const searchParams=useSearchParams()
           const [filter,setFilter]=useState(null)
+          const [isFetchingFilter,setIsFetchingFilter]=useState(false)
+
+
         const filterData=async()=>{
-            const response=await fetch(`/api/getAllCarFilters`,{
+          try{
+            setIsFetchingFilter(true)
+              const response=await fetch(`/api/getAllCarFilters`,{
                 method:"GET"
             })
-    
+               if(response.ok){
+                setIsFetchingFilter(false)
+               }
             const getFilters=await response.json()
             console.log(getFilters?.data,"HELLO")
             setFilter(getFilters?.data)
+        }
+          catch(error){
+            toast.error("Error in fetching filters")
+          }
+           
         }
         useEffect(()=>{
            filterData()
@@ -235,6 +248,54 @@ const CarFilters = () => {
 </Select>
 
       {/* Desktop Filters */}
+
+      {isFetchingFilter ? (
+         <div className="hidden lg:block sticky top-24">
+      <div className="border rounded-lg overflow-hidden bg-white">
+
+        <div className="p-4 border-b bg-gray-50 flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <Skeleton className="h-4 w-4 rounded" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+          <Skeleton className="h-6 w-16 rounded" />
+        </div>
+
+
+        <div className="p-6 space-y-6">
+
+          <div className="space-y-4">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-2 w-full rounded" />
+            <div className="flex items-center justify-between">
+              <Skeleton className="h-4 w-10" />
+              <Skeleton className="h-4 w-10" />
+            </div>
+          </div>
+
+   
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="space-y-3">
+              <div className="flex justify-between items-center">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-3 w-10" />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {[...Array(4)].map((_, j) => (
+                  <Skeleton key={j} className="h-6 w-16 rounded-full" />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+
+        <div className="px-4 py-4 border-t">
+          <Skeleton className="h-10 w-full rounded-md" />
+        </div>
+      </div>
+    </div>
+      ) : (
       <div className='hidden lg:block sticky top-24'>
         <div className='border rounded-lg overflow-hidden bg-white'>
           <div className='p-4 border-b bg-gray-50 flex justify-between items-center'>
@@ -268,6 +329,9 @@ const CarFilters = () => {
     </div>
         </div>
       </div>
+      )}
+     
+
     </div>
   )
 }

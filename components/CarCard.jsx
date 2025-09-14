@@ -12,7 +12,7 @@ import { useAuth } from '@clerk/nextjs'
 import { toast } from 'sonner'
 
 
-const CarCard = ({car}) => {
+const CarCard = ({car,setRefetchCar}) => {
       
 
     const [isSaved,setSaved]=useState(car.wishlisted)
@@ -44,6 +44,10 @@ const CarCard = ({car}) => {
             setIsToggling(false)
             toast.success(result?.message)
             result.saved===true?setSaved(true):setSaved(false)
+       
+  if (setRefetchCar) {
+    setRefetchCar(prev => !prev); 
+  }
         }
      
     }
@@ -62,13 +66,13 @@ fill className='object-cover group-hover:scale-105 transition duration-300'/>
         ) }
 
 {isSignedIn && (
-        <Button varient="ghost" size="icon" className={`absolute top-2 right-2 bg-white/90 rounded-full p-1.5 ${isSaved?"text-red-500 hover:text-red-600 ":"text-gray-600 hover:text-gray-900"}`
+        <Button varient="ghost" size="icon" className={`absolute top-2 right-2 bg-white/90 rounded-full p-1.5 ${isSaved?"text-red-500 hover:text-red-600 ":"text-gray-600 "}`
     
     } onClick={handleToggleSave}>
         {isToggling?(
             <Loader2 className="h-4 w-4 animate-spin"/>
         ):(
-              <Heart className={isSaved?"fill-current":""} size={20}/>
+              <Heart className={isSaved?"fill-current   ":"stroke-gray-500 hover:stroke-red-500 "} size={20}/>
         )}
            
         </Button>

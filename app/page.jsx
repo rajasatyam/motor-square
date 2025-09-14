@@ -199,7 +199,7 @@ className="bg-white rounded-lg shadow p-4 text-center hover:shadow-md transition
 
   <div className="grid grid-cols-2 md:grid-cols-4  gap-4">
 {bodyTypes.map((type)=>(
-<Link key={type.name}  href={`/cars?make=${type.name}`}
+<Link key={type.name}  href={`/cars?bodyType=${type.name}`}
 className="relative group cursor-pointer"
 >
 
