@@ -61,6 +61,7 @@ fill className='object-cover group-hover:scale-105 transition duration-300'/>
             </div>
         ) }
 
+{isSignedIn && (
         <Button varient="ghost" size="icon" className={`absolute top-2 right-2 bg-white/90 rounded-full p-1.5 ${isSaved?"text-red-500 hover:text-red-600 ":"text-gray-600 hover:text-gray-900"}`
     
     } onClick={handleToggleSave}>
@@ -71,6 +72,8 @@ fill className='object-cover group-hover:scale-105 transition duration-300'/>
         )}
            
         </Button>
+)}
+
         </div>
 
         <CardContent className="p-4">

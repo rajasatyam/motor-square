@@ -35,16 +35,16 @@ export async function GET(request){
                console.log(currUser,"dekho current usert")
               
            
-               if(!currUser){
+              //  if(!currUser){
                 
-                   console.log('Unauthorized')
-               }
+              //      console.log('Unauthorized')
+              //  }
 
                let where={
                 status:"AVAILABLE"
                }
 
-               const user=await User.findOne({clerkUserId:currUser.id})
+        
  
 
     if(make) where.make={$regex:make,$options:'i'}
@@ -80,15 +80,29 @@ const total = await Car.countDocuments(where);
 
 console.log(car,"see car")
 console.log(total,"see total")
-let wishlisted=new Set()
-    if(user){
+
+    if(currUser){
+             const user=await User.findOne({clerkUserId:currUser.id})
+      let wishlisted=new Set()
         const savedCars=await userSavedCar.find({  userId:user._id }).select("carId")
         console.log(savedCars,"save")
              wishlisted = new Set(savedCars.map((saved) => saved.carId.toString()));
+             const serializedCars = car.map((car) => serializedCarData(car, wishlisted.has(car._id.toString())) );
+               return NextResponse.json({
+      success: true,
+      data: serializedCars,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+   
+    });
+             
     }
 
-const serializedCars = car.map((car) => serializedCarData(car, wishlisted.has(car._id.toString())) );
-console.log("wishlisted set:", Array.from(wishlisted));
+    const serializedCars=car.map(serializedCarData)
 
 
 console.log(serializedCars,"seral")

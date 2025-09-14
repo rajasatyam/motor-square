@@ -15,12 +15,8 @@ export async function GET(request){
                        const currUser=await currentUser();
                        console.log(currUser,"dekho current usert")
                       
-                   
-                       if(!currUser){
-                        
-                           console.log('Unauthorized')
-                       }
-         const user=await User.findOne({clerkUserId:currUser.id})
+
+       
  const where={};
     if(search){
       where.$or=[
@@ -34,18 +30,27 @@ export async function GET(request){
     console.log(cars,"dekho car")
 
 
-  let wishlisted=new Set()
-    if(user){
+  console.log("yha aa gye hello1")
+    if(currUser){
+  const user=await User.findOne({clerkUserId:currUser.id})
+      let wishlisted=new Set()
         const savedCars=await userSavedCar.find({  userId:user._id }).select("carId")
         console.log(savedCars,"save")
              wishlisted = new Set(savedCars.map((saved) => saved.carId.toString()));
-    }
-
-const serializedCars = cars.map((car) => serializedCarData(car, wishlisted.has(car._id.toString())) );
+             const serializedCars = cars.map((car) => serializedCarData(car, wishlisted.has(car._id.toString())) );
     return NextResponse.json({
       success: true,
       serializedCars
     });
+    }
+console.log("yha aa gye hello2")
+    const serializedCars=cars.map(serializedCarData)
+        return NextResponse.json({
+      success: true,
+      serializedCars
+    });
+
+
     }catch(error){
        return NextResponse.json(
          { error: `Failed to generate car response: ${error.message}` },
