@@ -4,8 +4,11 @@ import userSavedCarSchemaModel from "@/app/model/savedCars"
 import UserSavedCar from "@/app/model/savedCars"
 import TestDriveBooking from "@/app/model/testDriveBooking"
 import User from "@/app/model/user"
+import workingHourModel from "@/app/model/workingHour"
+
 import { connect } from "@/lib/database"
 import { serializedCarData } from "@/lib/helper"
+
 import { auth } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
 
@@ -20,6 +23,20 @@ import { NextResponse } from "next/server"
        
               const {userId}=await auth()
               console.log(userId,"yha aa gye")
+
+           let isWishlisted=false
+              if(!userId){
+                 const car=await Car.findById({_id:carId})
+                 return NextResponse.json({
+    success:true,
+    data:{
+        ...serializedCarData(car,isWishlisted),
+
+    }
+    }
+
+)
+              }
           
               if(!userId){
                return NextResponse.json({
@@ -40,7 +57,7 @@ import { NextResponse } from "next/server"
                 })
               }
 
-              let isWishlisted=false
+             
 
  let wishlisted=new Set()
   
@@ -78,10 +95,12 @@ import { NextResponse } from "next/server"
               }
             }
           
-
-const dealership = await Dealership.find({}).populate("workingHour","dealershipId dayOfWeek openTime closeTime isOpen")
-
+console.log("come here")
+const dealership = await Dealership.findOne({}).lean()
+const workingHours = await workingHourModel.find({ dealershipId: dealership._id })
+  .select("dealershipId dayOfWeek openTime closeTime isOpen");
 console.log(dealership,"dekho dealer")
+console.log(workingHours,"dekho working Hour")
 
 return NextResponse.json({
     success:true,
@@ -89,9 +108,9 @@ return NextResponse.json({
         ...serializedCarData(car,isWishlisted),
         testDriveInfo:{
           userTestDrive,
-          dealership:dealership ? {
-            ...dealership,
-          
+          dealership:dealership?{
+           ...dealership,
+           workingHour:workingHours
           }:null
         }
     }
