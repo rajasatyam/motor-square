@@ -64,20 +64,24 @@ import { NextResponse } from "next/server"
               if(user){
                 const savedCars=await UserSavedCar.find({$and:[{userId:user._id},{carId:car._id}]})
                   console.log(savedCars,"saved")
-                  const finalData=await UserSavedCar.find({})
-                  wishlisted = new Set(finalData.map((saved) => saved.carId.toString()))
-                  console.log(wishlisted,"......")
+                  const mapId=savedCars.map((car)=>carId)
+                  console.log("mapping",mapId)
+
+                  // const finalData=await UserSavedCar.find({})
+                  // wishlisted = new Set(finalData.map((saved) => saved.carId.toString()))
+                  // console.log(wishlisted,"......")
                          
-                          const FinalCar=Array.from(wishlisted)
-                          console.log(FinalCar,"final")
-                          console.log(carId,"id dekh")
+                  //         const FinalCar=Array.from(wishlisted)
+                  //         console.log(FinalCar,"final")
+                  //         console.log(carId,"id dekh")
                
-              if(FinalCar.includes(carId)){
+              if(mapId?.includes(carId)){
                 console.log("thala")
-   const serializedCars= serializedCarData(car, wishlisted.has(car._id.toString()))
+  //  const serializedCars= serializedCarData(car)
      
-                 console.log(serializedCars,"piyush")
-                 isWishlisted=serializedCars.wishlisted
+                //  console.log(serializedCars,"piyush")
+                 isWishlisted=!!savedCars
+                 
       }
          
               }
