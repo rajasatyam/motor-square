@@ -68,7 +68,30 @@ const CarDetails = ({car,testDriveInfo}) => {
          <div></div>      
 
   </div>
-        
+       {car?.images && car?.images.length>1 &&(
+        <div className='flex gap-2 overflow-x-auto pb-2'>
+          {car?.images.map((image,index)=>(
+             
+            <div key={index}
+             className={`relative cursor-pointer rounded-md h-20 w-24 flex-shrink-0 transition ${
+              index===currentImageIndex ?"border-2 border-blue-600":"opacity-70 hover:opacity-100"
+             }`}
+             onClick={()=>setCurrentImageIndex(index)}
+            >
+              <img
+              src={image?.url}
+              fill
+              alt={`${car.year} ${car.make} ${car.model} -view ${index+1}`}
+               className="object-cover"
+              
+              />
+
+
+              
+            </div>
+          ))}
+        </div>
+       )} 
     </div>
     </div>
   )
