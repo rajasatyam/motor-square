@@ -134,7 +134,8 @@ const Carlist = () => {
    
       const {_id}=carToDelete
        console.log("id.....",_id)
-        const response=  (`/api/deleteCar?id=${_id}`,{
+       try{
+                const response=await fetch(`/api/deleteCar?id=${_id}`,{
           method:'DELETE'
         })
         const result=await response.json()
@@ -145,11 +146,10 @@ const Carlist = () => {
           setCarsData(result?.data)
           console.log("del response",result)
           }
-          if(!response.ok){
-            toast.error("Car Not Deleted Successfully")
-          }
 
-       
+       }catch(error){
+        toast.error("Car not deleted successfully")
+       }
 
 
     }
