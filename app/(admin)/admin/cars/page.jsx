@@ -8,7 +8,7 @@ export const metadata={
 }
 const CarsPage = () => {
   return (
-    <div className='p-6'>
+    <div className='p-6 overflow-y-scroll min-h-screen'>
       <h1 className='text-2xl font-bold mb-6 mt-4'>Cars Management</h1>
       <Carlist/>
     </div>

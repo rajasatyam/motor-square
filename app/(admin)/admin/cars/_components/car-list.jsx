@@ -157,7 +157,7 @@ const Carlist = () => {
 
     
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 ">
       <div className="flex w-full flex-col  sm:flex-row gap-4 items-start sm:items-center justify-between ">
         <Button onClick={()=>{router.push("/admin/cars/create")}} className="flex items-center">
             <Plus className='h-4 w-4'/>Add Car
