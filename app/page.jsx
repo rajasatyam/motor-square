@@ -34,7 +34,16 @@ useEffect(()=>{
   
   return (
  <div className="pt-20 flex flex-col ">
- <section className="relative  md:py-28 dotted-background h-[90vh]">
+ <section className="relative  md:py-28  h-[90vh]"
+   style={{
+    backgroundImage: "url('https://ucarecdn.com/0ff36833-b916-4136-a920-6237a7d0db78/')",
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  }}
+ 
+ 
+ >
     <img 
     src="/body/image-2.svg"
     className="absolute left-0 top-1/2 -translate-y-1/3 w-[46%] object-cover"
