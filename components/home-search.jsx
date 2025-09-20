@@ -110,7 +110,7 @@ type="text"
 placeholder='Enter make,model or use our AI image search...'
 value={searchTerm}
 onChange={(e)=>setSearchTerm(e.target.value)}
-className='pl-10 pr-12 py-6 w-full rounded-full border-gray-300 bg-white/95 backdrop-blur-sm ml-2 mr-1'
+className='pl-10 pr-12 py-6 w-full rounded-full border-gray-300 bg-white/95 backdrop-blur-sm ml-2 mr-1 placeholder-black '
 />
 
 <div className='absolute right-[100px]'>

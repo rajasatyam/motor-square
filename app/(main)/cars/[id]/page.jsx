@@ -14,8 +14,8 @@ const carPage =  () => {
     const { car, loading, error } = useGetCars(id)
    console.log(car,"gaadi")
   return (
-    <div className='container mx-auto px-4 py-1 sm:py-2
-    '>
+    <div className='container   sm:py-2'>
+      
      <CarDetails car={car?.data} testDriveInfo={car?.data?.testDriveInfo}/>
     </div>
   )

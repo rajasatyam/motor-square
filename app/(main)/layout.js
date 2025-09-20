@@ -2,7 +2,7 @@ import React from 'react'
 
 const layout = ({children}) => {
   return (
-    <div className='container mx-auto my-32'>
+    <div className='container mx-auto my-22'>
       {children}
     </div>
   )

@@ -1,3 +1,4 @@
+
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { ArrowLeft, CarFront, Heart, Layout } from 'lucide-react'
 import Image from 'next/image'
@@ -9,10 +10,8 @@ import { getAdmin } from '@/actions/admin'
 
 
 
-
-
-
 const Header = async({isAdminPage=false}) => {
+ 
 
     const user=await checkUser();
 
@@ -23,13 +22,12 @@ const Header = async({isAdminPage=false}) => {
 console.log(checkAdmin?.user?.role,"piyush")
 
 
-
     
     
 
 
   return (
-   <header className='fixed top-0 w-full bg-white/80 backdrop-blur-xl flex z-50 border-b justify-between'>
+   <header className='fixed top-0 w-full backdrop-blur-xl bg-transparent flex z-50 border-b justify-between bg-gradient-to-b from-[#F58AD533] to-[#F58AD580] '>
     <nav className=' px-4 py-4 '>
         <Link href={isAdminPage?"/admin":"/"} className='flex'>
         <Image src={"/logo-pk.png"} alt="Vehiql Logo"

@@ -95,7 +95,7 @@ useEffect(() => {
     }
     
   return (
-    <div>
+    <div className='mt-20'>
     <div className='flex flex-col lg:flex-row gap-8'>
         <div className='w-full lg:w-7/12'>
          <div className='aspect-video rounded-lg overflow-hidden relative mb-4'>
@@ -473,7 +473,7 @@ onClick={handleBookTestDrive}
                           "SUNDAY",
                         ];
                   return (
-                    days?.indexOf(a.dayOfWeek.toUpperCase())-days?.indexOf(b.dayOfWeek.toUpperCase())  //ye indexing wise sorting krega
+                    days?.indexOf(a.dayOfWeek.toUpperCase())-days?.indexOf(b.dayOfWeek.toUpperCase())  //yha sorting index wise hogi
                   )
                 }).map((day)=>(
                     <div key={day.dayOfWeek} className='flex justify-between text-sm'>

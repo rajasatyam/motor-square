@@ -128,11 +128,16 @@
   }
 }
 .dotted-background {
-  background-color: #0b0133ee;
-  background-image: radial-gradient(
-    rgba(255, 255, 255, 0.28) 1px,
-    transparent 1px
-  );
-  background-size: 30px 30px;
+  background-image: url('https://ucarecdn.com/0ff36833-b916-4136-a920-6237a7d0db78/');
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center; 
+
+}
+
+.jockey-one-regular {
+  font-family: "Jockey One", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
 

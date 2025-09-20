@@ -33,16 +33,31 @@ useEffect(()=>{
 },[])
   
   return (
- <div className="pt-20 flex flex-col">
- <section className="relative py-16 md:py-28 dotted-background">
-  <div className="max-w-4xl mx-auto text-center">
+ <div className="pt-20 flex flex-col ">
+ <section className="relative  md:py-28 dotted-background h-[90vh]">
+    <img 
+    src="/body/image-2.svg"
+    className="absolute left-0 top-1/2 -translate-y-1/3 w-[46%] object-cover"
+    alt="Left image"
+  />
+
+  <img 
+    src="/body/image-102.svg"
+    className="absolute right-0 top-1/2 -translate-y-1/2 w-[46%] object-cover"
+    alt="Right image"
+  />
+  <div className="max-w-[40rem]  text-center -mt-8 ml-[14rem] jockey-one-regular">
     <div className="mb-8">
-      <h1 className="text-5xl md:text-8xl mb-4 gradient-title">Find Your Dream Car With Motor Square</h1>
-      <p className="text-xl text-gray-500 mb-8 max-w-2xl mx-auto">
+      {/* <h1 className="text-5xl md:text-5xl mb-4 text-[#00B0FF] jockey-one-regular flex flex-col gap-y-2 gradient-titl"><div className="text-white ">FIND YOUR DREAM CAR</div> WITH MOTOR SQUARE</h1> */}
+      <h1 className="text-5xl md:text-[3.5rem] mb-4 text-[#00B0FF] jockey-one-regular tracking-tight flex flex-col gap-y-2"><div className="text-white ">FIND YOUR DREAM CAR</div>WITH MOTOR SQUARE</h1>
+      {/* <p className="text-xl  mb-8 max-w-2xl mx-auto text-white">
         Advanced AI Car Search and test drive from thousands of vehicles
-      </p>
+      </p> */}
     </div>
     <HomeSearch/>
+
+
+
   </div>
  </section>
 

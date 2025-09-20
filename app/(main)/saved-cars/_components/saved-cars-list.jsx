@@ -40,7 +40,7 @@ const SavedCarsList = () => {
             console.log(cars,"dekho data")
           if(cars?.length === 0){
             return (
-              <div className='min-h-[400px] flex flex-col items-center justify-center text-center p-8 border rounded-lg bg-gray-50'>
+              <div className='min-h-[400px] flex flex-col items-center justify-center text-center p-8 border rounded-lg bg-gray-50 mt-10'>
                 <div className='bg-gray-100 p-4 rounded-full mb-4'>
                   <Heart className='h-8 w-8 text-gray-500'/>
                 </div>
@@ -56,7 +56,7 @@ const SavedCarsList = () => {
             )
           }
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-20">
     {cars?.map((car)=>(
       <CarCard key={car._id} car={car} setRefetchCar={setRefetchCar}/>
     ))}

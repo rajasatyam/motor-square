@@ -205,7 +205,7 @@ const Carlist = () => {
       return (
          <TableRow key={car?._id}>
       <TableCell className="mr-2">
-                        <div className=" rounded-md ">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden relative">
                           {car?.images && car?.images?.length > 0 ? (
                             <Image
                               src={car?.images[0]?.url}
