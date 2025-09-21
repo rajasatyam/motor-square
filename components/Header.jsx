@@ -81,7 +81,7 @@ console.log(checkAdmin?.user?.role,"piyush")
 
         <SignedOut>
             <SignInButton forceRedirectUrl='/'>
-                <Button variant="outline">
+                <Button variant="outline" className="mr-1">
                  Login
                 </Button>
             </SignInButton>

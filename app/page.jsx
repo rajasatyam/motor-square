@@ -265,7 +265,12 @@ className="relative group cursor-pointer"
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 dotted-background text-white">
+      <section className="py-16  text-white" style={{
+    backgroundImage: "url('https://ucarecdn.com/0ff36833-b916-4136-a920-6237a7d0db78/')",
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  }}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">
             Ready to Find Your Dream Car?

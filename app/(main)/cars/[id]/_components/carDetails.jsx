@@ -32,7 +32,7 @@ const CarDetails = ({car,testDriveInfo}) => {
      const handleToggleSave=async(e)=>{
       
       if(!isSignedIn){
-          toast.error("Please sing in to save cars")
+          toast.error("Please sign in to save cars")
           router.push('/sign-in')
           return;
       }
