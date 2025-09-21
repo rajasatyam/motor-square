@@ -89,14 +89,16 @@ import { NextResponse } from "next/server"
               const existingTestDrive=await TestDriveBooking.find({carId:car._id,userId:user._id,status:{$in:['PENDING','CONFIRMED','COMPLETED']}}).sort({createdAt:-1})
 
               
-              let userTestDrive=null
-              if(existingTestDrive){
-              
-              userTestDrive={
-                id:existingTestDrive._id,
-                status:existingTestDrive.status,
-                bookingDate:existingTestDrive.bookingDate
-              }
+              let userTestDrive=[]
+              if(existingTestDrive && existingTestDrive.length > 0){
+
+userTestDrive = existingTestDrive.map((drive) => ({
+  id: drive._id,
+  status: drive.status,
+  bookingDate: drive.bookingDate,
+  startTime: drive.startTime,  
+  endTime: drive.endTime,
+}));
             }
           
 console.log("come here")

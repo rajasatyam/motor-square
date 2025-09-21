@@ -1,15 +1,26 @@
+'use client'
 import React from 'react'
+import useGetCars from '../../cars/hooks/useGetCars'
+import { useParams } from 'next/navigation'
+import NotFound from '@/app/not-found'
+import TestDriveForm from './_components/test-drive-form'
 
 
-export async function generateMetaData(){
-    return {
-        title:`Book Test Drive | MotorSquare`,
-        description:`Schedule a test drive in few seconds`
+
+
+const TestDrivePage = () => {
+      const params=useParams()
+    const {id}=params
+    const { car, loading, error } = useGetCars(id)
+
+    if(car){
+        NotFound()
     }
-}
-const TestDrivePage = ({params}) => {
   return (
-    <div>TestDrivePage</div>
+    <div className='container mx-auto px-4 py-12'>
+        <h1 className='text-6xl mb-6 gradient-title '>Book a Test Drive</h1>
+          <TestDriveForm car={car?.data} testDriveInfo={car?.data?.testDriveInfo}/>
+    </div>
   )
 }
 

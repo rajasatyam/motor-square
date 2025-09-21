@@ -85,7 +85,7 @@ fill className='object-cover group-hover:scale-105 transition duration-300'/>
                 <h3 className='text-lg font-bold line-clamp-1'>
                     {car.make} {car.model}
                 </h3>
-                <span className='text-xl font-bold text-blue-600'>${car.price.toLocaleString()}</span>
+                <span className='text-xl font-bold text-[#FF1493]'>${car.price.toLocaleString()}</span>
             </div>
 
             <div className='text-gray-600 mb-2 flex items-center'>
@@ -111,7 +111,7 @@ fill className='object-cover group-hover:scale-105 transition duration-300'/>
             </div>
 
             <div className='flex justify-between'>
-                <Button className="flex-1 cursor-pointer" onClick={()=>{router.push(`/cars/${car._id}`)}}>View Car</Button>
+                <Button className="flex-1 cursor-pointer bg-[#F58AD5] border border-[#C2185B] hover:bg-[#F58AD5]" onClick={()=>{router.push(`/cars/${car._id}`)}}>View Car</Button>
             </div>
         </CardContent>
     </Card>

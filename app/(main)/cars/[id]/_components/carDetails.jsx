@@ -173,7 +173,7 @@ useEffect(() => {
       {car?.year} {car?.make} {car?.model}
     </h1>
 
-<div className='text-2xl font-bold text-blue-600'>
+<div className='text-2xl font-bold text-[#F58AD5]'>
   ${car?.price}
 </div>
 
@@ -224,7 +224,7 @@ useEffect(() => {
   <Card className="pt-5">
     <CardContent >
     <div className='flex items-center gap-2 text-lg font-medium mb-2'>
-      <Currency className='h-5 w-5 text-blue-600'/>
+      <Currency className='h-5 w-5 text-[#F58AD5]'/>
       <h3>EMI Calculator</h3>
     </div> 
     <div>
@@ -259,7 +259,7 @@ useEffect(() => {
 <Card className="my-6 ">
   <CardContent>
     <div className='flex items-center gap-2 text-lg font-medium mb-2'>
-      <MessageSquare className='h-5 w-5 text-blue-600'/>
+      <MessageSquare className='h-5 w-5 text-[#F58AD5]'/>
       <h3>Have Questions?</h3>
     </div>
     <p className='text-sm text-gray-600 mb-3'>
@@ -285,7 +285,7 @@ useEffect(() => {
 )}
 
 {car?.status !=="SOLD" && car?.status !=="UNAVAILABLE" && (
-<Button className="w-full py-6 text-lg" 
+<Button className="w-full py-6 text-lg bg-[#F58AD5] border border-[#C2185B] hover:bg-[#F58AD5] cursor-pointer" 
 disabled={testDriveInfo?.userTestDrive && Object.keys(testDriveInfo?.userTestDrive).length > 0}
 onClick={handleBookTestDrive}
 >
@@ -314,25 +314,25 @@ onClick={handleBookTestDrive}
             <h3 className="text-2xl font-bold mb-6">Features</h3>
             <ul className="grid grid-cols-1 gap-2">
               <li className="flex items-center gap-2">
-                <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
+                <span className="h-2 w-2 bg-[#F58AD5] rounded-full"></span>
                 {car?.transmission} Transmission
               </li>
               <li className="flex items-center gap-2">
-                <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
+                <span className="h-2 w-2 bg-[#F58AD5] rounded-full"></span>
                 {car?.fuelType} Engine
               </li>
               <li className="flex items-center gap-2">
-                <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
+                <span className="h-2 w-2 bg-[#F58AD5] rounded-full"></span>
                 {car?.bodyType} Body Style
               </li>
               {car?.seats && (
                 <li className="flex items-center gap-2">
-                  <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
+                  <span className="h-2 w-2 bg-[#F58AD5] rounded-full"></span>
                   {car.seats} Seats
                 </li>
               )}
               <li className="flex items-center gap-2">
-                <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
+                <span className="h-2 w-2 bg-[#F58AD5] rounded-full"></span>
                 {car?.color} Exterior
               </li>
             </ul>
@@ -443,7 +443,7 @@ onClick={handleBookTestDrive}
           <div className="flex flex-col md:flex-row gap-6 justify-between">
             {/* Dealership Name and Address */}
             <div className="flex items-start gap-3">
-              <LocateFixed className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
+              <LocateFixed className="h-5 w-5 text-[#F58AD5] mt-1 flex-shrink-0" />
               <div>
                 <h4 className="font-medium">Motor Square</h4>
                 <p className="text-gray-600">

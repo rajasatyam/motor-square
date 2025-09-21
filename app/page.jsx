@@ -177,7 +177,7 @@ className="bg-white rounded-lg shadow p-4 text-center hover:shadow-md transition
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="bg-blue-100 text-blue-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-[#F58AD5] text-[#FF1493] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Car className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold mb-2">Wide Selection</h3>
@@ -187,7 +187,7 @@ className="bg-white rounded-lg shadow p-4 text-center hover:shadow-md transition
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-blue-100 text-blue-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-[#F58AD5] text-[#FF1493]  rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Calendar className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold mb-2">Easy Test Drive</h3>
@@ -197,7 +197,7 @@ className="bg-white rounded-lg shadow p-4 text-center hover:shadow-md transition
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-blue-100 text-blue-700 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-[#F58AD5] text-[#FF1493]  rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold mb-2">Secure Process</h3>
@@ -237,7 +237,7 @@ className="relative group cursor-pointer"
 <h3 className="text-white text-xl font-bold pl-4 pb-2">{type.name}</h3>
   </div>
   
-
+0
  
 </Link>
 ))}

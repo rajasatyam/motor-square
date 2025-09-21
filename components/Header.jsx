@@ -53,7 +53,7 @@ console.log(checkAdmin?.user?.role,"piyush")
   <SignedIn>
          
             <Link href="/saved-cars">
-              <Button className='my-6 mx-4'>
+              <Button className='my-6 mx-4 bg-[#F58AD5] border border-[#C2185B] hover:bg-[#F58AD5]'>
                 <Heart size={18}/>
                 <span className='hidden md:inline'>Saved Cars</span>
                 </Button>

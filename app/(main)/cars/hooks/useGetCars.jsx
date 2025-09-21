@@ -12,7 +12,7 @@ const useGetCars = (id) => {
         setLoading(true)
         const response = await fetch(`/api/getCarById?carId=${id}`)
         const result = await response.json()
-
+         console.log(result,"krish sir response")
         if (!response.ok) throw new Error(result.message || 'Failed to fetch car')
 
         setCar(result)

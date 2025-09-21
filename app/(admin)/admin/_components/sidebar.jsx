@@ -35,12 +35,12 @@ const SideBar = () => {
  const pathname= usePathname()
   return (
     <>
-    <div className='hidden md:flex h-full flex-col overflow-y-auto bg-white shadow-sm border-r'>
+    <div className='hidden md:flex h-full flex-col overflow-y-auto bg-white shadow-sm border-r mt-1'>
       {routes.map((route)=>{
 return (
 <Link key={route.href} href={route.href} className={cn(
   "flex items-center gap-x-2 text-slate-500 text-sm font-medium pl-6 transition-all hover:text-slate-600 hover:bg-slate-100/50 h-12",
-  pathname===route.href?"text-blue-700 bg-blue-100/50 hover:bg-blue-100 hover:text-blue-700":""
+  pathname===route.href?"text-[#C2185B] bg-[#F58AD580] hover:bg-[F58AD580] hover:text-[#C2185B]":""
 )} >
   <route.icon className='h-5 w-5'/>
   {route.label}
@@ -57,14 +57,14 @@ return (
             href={route.href}
             className={cn(
               "flex flex-col items-center justify-center text-slate-500 text-xs font-medium transition-all",
-              pathname === route.href ? "text-blue-700" : "",
+              pathname === route.href ? "text-[#C2185B]" : "",
               "py-1 flex-1"
             )}
           >
             <route.icon
               className={cn(
                 "h-6 w-6 mb-1",
-                pathname === route.href ? "text-blue-700" : "text-slate-500"
+                pathname === route.href ? "text-[#C2185B]" : "text-slate-500"
               )}
             />
             {route.label}
