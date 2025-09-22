@@ -173,7 +173,7 @@ useEffect(() => {
       {car?.year} {car?.make} {car?.model}
     </h1>
 
-<div className='text-2xl font-bold text-[#F58AD5]'>
+<div className='text-2xl font-bold text-[#e93db5]'>
   ${car?.price}
 </div>
 
@@ -285,13 +285,13 @@ useEffect(() => {
 )}
 
 {car?.status !=="SOLD" && car?.status !=="UNAVAILABLE" && (
-<Button className="w-full py-6 text-lg bg-[#F58AD5] border border-[#C2185B] hover:bg-[#F58AD5] cursor-pointer" 
+<Button className="w-full py-6 text-lg bg-[#e93db5] border border-[#C2185B] hover:bg-[#e93db5] cursor-pointer" 
 disabled={testDriveInfo?.userTestDrive && Object.keys(testDriveInfo?.userTestDrive).length > 0}
 onClick={handleBookTestDrive}
 >
   <Calendar className="mr-5 h-5 w-5" />
-  {testDriveInfo?.userTestDrive && testDriveInfo?.userTestDrive?.bookingDate?`Booked for ${format(
-   new Date(testDriveInfo?.userTestDrive?.bookingDate),
+  {testDriveInfo?.userTestDrive?.length > 0  && testDriveInfo?.userTestDrive[0]?.bookingDate?`Booked for ${format(
+   new Date(testDriveInfo?.userTestDrive[0]?.bookingDate),
    "EEEE,MMMM d,yyyy"
   ).toString()}`:"Book Test Drive"}
   </Button>

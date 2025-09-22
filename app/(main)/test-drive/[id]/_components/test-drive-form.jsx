@@ -5,14 +5,18 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
-import {  CalendarIcon, Car } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { format, parseISO } from 'date-fns'
+import {  CalendarIcon, Car, CheckCircle2, Loader2 } from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { undefined, z } from 'zod'
 import { Calendar } from "@/components/ui/calendar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
+import { toast } from 'sonner'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+
 
 
 const testDriveSchema=z.object({
@@ -27,11 +31,21 @@ const testDriveSchema=z.object({
 const TestDriveForm = ({car,testDriveInfo}) => {
   
     console.log(testDriveInfo,"piyush bdcoe")
+  const params=useParams()
+  console.log("deklho params",params)
+
+    const {id}= params
+    
 
     const router=useRouter()
+    
+
+
+    console.log(id,"id...............")
     const [availableTimeSlots,setAvailableTimeSlots]=useState([])
     const [showConfirmation,setShowConfirmation]=useState(false)
     const [bookingDetails,setBookingDetails]=useState(null)
+  const [bookingInProgress,setBookingInProgress]=useState(false)
 
     const {control,handleSubmit,watch,setValue,reset,formState:{errors,isValid},}=useForm({
         resolver:zodResolver(testDriveSchema),
@@ -44,7 +58,7 @@ const TestDriveForm = ({car,testDriveInfo}) => {
 
     const dealership=testDriveInfo?.dealership
     const existingBooking=testDriveInfo?.userTestDrive || [];
-    
+    console.log(dealership,"dealership vaibhav")
     const selectedDate=watch("date")
    useEffect(()=>{
      console.log(selectedDate,"chanchal")
@@ -53,7 +67,52 @@ const TestDriveForm = ({car,testDriveInfo}) => {
    },[selectedDate])
 
    const onSubmit=async(data)=>{
+       console.log(data,"jo gya data")
+    const selectedSlot=availableTimeSlots.find((slot)=>slot.id===data.timeSlot)
+     console.log(selectedSlot,"...selefjfvgrdtfhgvdrtv")
+      
+     if(!selectedSlot){
+      toast.error("Selected time slot not available")
+     }
+    setBookingInProgress(true)
+      try{
+        const response=await fetch(`/api/bookTestDrive?carId=${id}`,{
+          method:"POST",
+        headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data)
+        },
+      )
+      console.log("dekh response",response)
+      const result=await response.json()
+      console.log(result,"resultjjds")
+      if(response?.ok || response?.status===200 ){
+        setBookingInProgress(false)
+        toast.success("Successfully booked test drive")
+                  setBookingDetails({
+date: format(new Date(result?.data?.bookingDate), "EEEE, MMMM d, yyyy"),
 
+timeSlot: `${format(
+  parseISO(`2022-01-01T${result?.data?.startTime}`),
+  "h:mm a"
+)} - ${format(
+  parseISO(`2022-01-01T${result?.data?.endTime}`),
+  "h:mm a"
+)}`,
+notes:data?.notes
+
+          })
+          setShowConfirmation(true)
+       
+      }
+
+      }catch(error){
+        console.log(error,"errroro")
+        setBookingInProgress(false)
+        toast.error("Failed to book test drive.Please try again later")
+        reset()
+      }
    }
 const hasSelectedDate = selectedDate instanceof Date;
 
@@ -124,9 +183,14 @@ let isBooked=false
 setValue("timeSlot","")
 },[selectedDate])
 
-// useEffect(()=>{
-//   console.log(availableTimeSlots,"hindu")
-// },[availableTimeSlots])
+useEffect(()=>{
+  console.log(availableTimeSlots,"hindu")
+},[availableTimeSlots])
+
+const handleCloseConfirmation=()=>{
+  setShowConfirmation(false)
+  router.push(`/cars/${car?._id}`)
+}
   return (
     <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
         <div className='md:col-span-1'>
@@ -291,7 +355,7 @@ setValue("timeSlot","")
     
     />  
 </div>
-  </form>
+  
 
   <div className='space-y-2'>
     <label className='block text-sm font-medium'>
@@ -342,10 +406,108 @@ setValue("timeSlot","")
     /> 
   </div>
 
+  <div className='space-y-2'>
+    <label className='block text-sm font-medium'>
+      Additional Notes(optional)
+    </label>
+    <Controller 
+     name="notes"
+     control={control}
+     render={({field})=>{
+      return <div>
+      <Textarea
+       {...field}
+       placeholder="Any specific questions or requests for your test drive?"
+       className="min-h-24"
+      />
+      </div>
+     }}
+
+    />
+  </div>
+<Button
+type="submit"
+disabled={bookingInProgress}
+className="w-full bg-[#e93db5] text-white"
+>
+  {
+    bookingInProgress?(
+<>
+ <Loader2 className='mr-2 h-4 w-4 animate spin' />
+ Booking Your Test Drive...
+</>
+    ):(
+     "Book Test Drive"
+    )
+  }
+</Button>
+</form>
+             <div className="mt-8 bg-gray-50 p-4 rounded-lg">
+              <h3 className="font-medium mb-2">What to expect</h3>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                  Bring your driver's license for verification
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                  Test drives typically last 30-60 minutes
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-green-500 mr-2 mt-0.5" />
+                  A dealership representative will accompany you
+                </li>
+              </ul>
+            </div>
   </CardContent>
 
 </Card>
         </div>
+        <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
+  <DialogTrigger>Open</DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle className="flex items-center gap-2">
+        <CheckCircle2 className='h-5 w-5 text-green-500'/>
+        Test Drive Booked Successfully
+      </DialogTitle>
+      <DialogDescription>
+           Your Test drive has been confirmed with the following details:
+      </DialogDescription>
+    </DialogHeader>
+      {bookingDetails && (
+        <div className='py-4'>
+          <div className='space-y-3'>
+            <div className='flex justify-between'>
+               <span className='font-medium'>Car:</span>
+               <span>
+                {car?.year} {car?.make} {car?.model}
+               </span>
+            </div>
+            <div className='flex justify-between'> 
+              <span className='font-medium'>Date:</span>
+              <span>{bookingDetails?.date}</span>
+            </div>
+                        <div className='flex justify-between'> 
+              <span className='font-medium'>Time Slot:</span>
+              <span>{bookingDetails?.timeSlot}</span>
+            </div>
+              <div className='flex justify-between'> 
+              <span className='font-medium'>Dealership:</span>
+              <span>{dealership?.name || "Motor Square"}</span>
+            </div>
+          </div>
+          <div className='mt-4 p-3 rounded text-sm text-center bg-[#e93db5] text-white'>
+            Please arrive 10 minutes early with your driving license.
+          </div>
+        </div>
+      )}
+      <div className='flex justify-end '>
+        <Button className="bg-[#e93db5] text-white" onClick={handleCloseConfirmation}>Done</Button>
+      </div>
+
+  </DialogContent>
+</Dialog>
     </div>
   )
 }

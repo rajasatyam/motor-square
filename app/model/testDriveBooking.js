@@ -15,7 +15,7 @@ const testDriveBookingSchema=new mongoose.Schema({
         type:mongoose.SchemaTypes.Date,
         required:true
     },
-        StartTime:{
+        startTime:{
         type:String,
         required: true,
  
@@ -25,7 +25,7 @@ const testDriveBookingSchema=new mongoose.Schema({
     }
     }
   },
-     EndTime: {
+     endTime: {
     type: String,
     required: true,
      validate(value){
