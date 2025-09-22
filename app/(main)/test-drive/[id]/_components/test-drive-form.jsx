@@ -428,7 +428,7 @@ const handleCloseConfirmation=()=>{
 <Button
 type="submit"
 disabled={bookingInProgress}
-className="w-full bg-[#e93db5] text-white"
+className="w-full bg-[#e93db5] text-white hover:bg-[#e93db5] hover:text-white"
 >
   {
     bookingInProgress?(
@@ -464,7 +464,7 @@ className="w-full bg-[#e93db5] text-white"
 </Card>
         </div>
         <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
-  <DialogTrigger>Open</DialogTrigger>
+
   <DialogContent>
     <DialogHeader>
       <DialogTitle className="flex items-center gap-2">

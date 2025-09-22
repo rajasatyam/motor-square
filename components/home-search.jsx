@@ -118,13 +118,13 @@ className='pl-10 pr-12 py-6 w-full rounded-full border-gray-300 bg-white/95 back
   size={35}
   onClick={()=>{setIsImageSearchActive(!isImageSearchActive)}}
   
- className={`cursor-pointer rounded-xl p-1.5 ${isImageSearchActive?"bg-[#F58AD5]":""} ${isImageSearchActive?"text-white":"text-[#F58AD5]"}`}
+ className={`cursor-pointer rounded-xl p-1.5 ${isImageSearchActive?"bg-[#E93DB5]":""} ${isImageSearchActive?"text-white":"text-[#F58AD5]"}`}
 
   />
 </div>
 <Button 
 type="submit"
-className='absolute right-2 rounded-full  bg-[#F58AD5] border border-[#C2185B] hover:bg-[#F58AD5]'
+className='absolute right-2 rounded-full  bg-[#E93DB5] border border-[#C2185B] hover:bg-[#E93DB5]'
 >
   Search
 </Button>

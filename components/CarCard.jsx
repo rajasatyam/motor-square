@@ -111,7 +111,7 @@ fill className='object-cover group-hover:scale-105 transition duration-300'/>
             </div>
 
             <div className='flex justify-between'>
-                <Button className="flex-1 cursor-pointer bg-[#F58AD5] border border-[#C2185B] hover:bg-[#F58AD5]" onClick={()=>{router.push(`/cars/${car._id}`)}}>View Car</Button>
+                <Button className="flex-1 cursor-pointer bg-[#E93DB5] border border-[#C2185B] hover:bg-[#E93DB5]" onClick={()=>{router.push(`/cars/${car._id}`)}}>View Car</Button>
             </div>
         </CardContent>
     </Card>

@@ -314,25 +314,25 @@ onClick={handleBookTestDrive}
             <h3 className="text-2xl font-bold mb-6">Features</h3>
             <ul className="grid grid-cols-1 gap-2">
               <li className="flex items-center gap-2">
-                <span className="h-2 w-2 bg-[#F58AD5] rounded-full"></span>
+                <span className="h-2 w-2 bg-[#E93DB5] rounded-full"></span>
                 {car?.transmission} Transmission
               </li>
               <li className="flex items-center gap-2">
-                <span className="h-2 w-2 bg-[#F58AD5] rounded-full"></span>
+                <span className="h-2 w-2 bg-[#E93DB5] rounded-full"></span>
                 {car?.fuelType} Engine
               </li>
               <li className="flex items-center gap-2">
-                <span className="h-2 w-2 bg-[#F58AD5] rounded-full"></span>
+                <span className="h-2 w-2 bg-[#E93DB5] rounded-full"></span>
                 {car?.bodyType} Body Style
               </li>
               {car?.seats && (
                 <li className="flex items-center gap-2">
-                  <span className="h-2 w-2 bg-[#F58AD5] rounded-full"></span>
+                  <span className="h-2 w-2 bg-[#E93DB5] rounded-full"></span>
                   {car.seats} Seats
                 </li>
               )}
               <li className="flex items-center gap-2">
-                <span className="h-2 w-2 bg-[#F58AD5] rounded-full"></span>
+                <span className="h-2 w-2 bg-[#E93DB5] rounded-full"></span>
                 {car?.color} Exterior
               </li>
             </ul>
