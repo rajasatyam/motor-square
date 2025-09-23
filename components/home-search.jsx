@@ -9,7 +9,7 @@ import { toast } from 'sonner'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-const HomeSearch = () => {
+const HomeSearch = ({setIsClicked}) => {
 const [searchTerm,setSearchTerm]=useState("")
 const [isImageSearchActive,setIsImageSearchActive]=useState(false)
 const [imagePreview,setImagePreview]=useState("")
@@ -116,7 +116,9 @@ className='pl-10 pr-12 py-6 w-full rounded-full border-gray-300 bg-white/95 back
 <div className='absolute right-[100px]'>
   <Camera 
   size={35}
-  onClick={()=>{setIsImageSearchActive(!isImageSearchActive)}}
+  onClick={()=>{setIsImageSearchActive(!isImageSearchActive) 
+     setIsClicked(prev=>!prev)
+    }}
   
  className={`cursor-pointer rounded-xl p-1.5 ${isImageSearchActive?"bg-[#E93DB5]":""} ${isImageSearchActive?"text-white":"text-[#F58AD5]"}`}
 
@@ -133,14 +135,14 @@ className='absolute right-2 rounded-full  bg-[#E93DB5] border border-[#C2185B] h
    </form>
 
  {isImageSearchActive && (
-  <div>
-    <form onSubmit={handleImageSearch}>
-      <div className='border-2 border-dashed border-gray-300 rounded-3xl p-6 text-center mt-3   mx-2'>{imagePreview?<div className='flex flex-col items-center'>
+  <div className=''>
+    <form onSubmit={handleImageSearch} className=' z-50'>
+      <div className='border-2 border-dashed border-gray-300 h-[11rem] rounded-3xl pb-1 text-center mt-3   mx-2'>{imagePreview?<div className='flex flex-col items-center'>
 
         <img 
         src={imagePreview}
         alt="Car Preview"
-        className='h-40 object-contain mb-4'
+        className='h-32 mt-1 object-contain '
         />
  
         <Button
@@ -154,12 +156,12 @@ className='absolute right-2 rounded-full  bg-[#E93DB5] border border-[#C2185B] h
          Remove Image
         </Button>
       </div>:(
-         <div {...getRootProps()} className='cursor-pointer '>
-      <input {...getInputProps()} />
-      <div className='flex flex-col items-center '>
+         <div {...getRootProps()} className='cursor-pointer w-full h-full'>
+      <input {...getInputProps()} className='w-full h-full'/>
+      <div className='flex flex-col items-center justify-center p-4'>
 
-<Upload className='h-12 w-12 text-gray-400 mb-2 '/>
-      <p className='text-gray-500 mb-2'>
+<Upload className='h-12 w-12 text-white mb-2 '/>
+      <p className='text-white'>
   {
         isDragActive && !isDragReject ?
           "leave the file here to upload" :
@@ -172,7 +174,13 @@ className='absolute right-2 rounded-full  bg-[#E93DB5] border border-[#C2185B] h
        invalid image type
         </p>
       )}
-      <p className='text-gray-400 text-sm'>Supports:JPG,PNG (max 5MB) </p>
+      <div className='text-white text-sm p-1'>
+        Supports:JPG,PNG (max 5MB)
+        <div className='pt-1'>
+          Other files type not supported
+        </div>
+        
+         </div>
         
       </div>
       

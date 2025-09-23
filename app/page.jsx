@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
 
   const [featuredCars,setFeaturedCars]=useState(null)
+  const [isClicked,setIsClicked]=useState(false)
 
   const search=""
      const getCars=async(search)=>{
@@ -31,10 +32,14 @@ export default function Home() {
 useEffect(()=>{
   getCars()
 },[])
+
+useEffect(()=>{
+ console.log(isClicked,"dekho state")
+},[isClicked])
   
   return (
  <div className="pt-20 flex flex-col ">
- <section className="relative  md:py-28  h-[90vh]"
+ <section className="relative  md:py-28  h-[92vh]"
    style={{
     backgroundImage: "url('https://ucarecdn.com/0ff36833-b916-4136-a920-6237a7d0db78/')",
     backgroundSize: 'cover',
@@ -44,18 +49,25 @@ useEffect(()=>{
  
  
  >
-    <img 
+    <Image 
+      width={100}
+  height={100} 
     src="/body/image-2.svg"
-    className="absolute left-0 top-1/2 -translate-y-1/3 w-[46%] object-cover"
+    className={`absolute left-0  ${isClicked?"top-[60%] w-[45%]":"top-[55%] w-[50%]"} -translate-y-1/3  object-cover pointer-events-none z-0`}
     alt="Left image"
+        priority={true}
   />
 
-  <img 
+  <Image
+  width={100}
+  height={100} 
     src="/body/image-102.svg"
-    className="absolute right-0 top-1/2 -translate-y-1/2 w-[46%] object-cover"
+    className={`absolute right-0 top-1/2  ${isClicked?"top-[72%] w-[45%]":"top-1/2 w-[50%]"} -translate-y-1/2  object-cover mt-10 pointer-events-none z-0`}
     alt="Right image"
+    priority={true}
   />
-  <div className="max-w-[40rem]  text-center -mt-8 ml-[14rem] jockey-one-regular">
+  <div className={` w-full  ${isClicked?"flex flex-col justify-center":""} ` }>
+  <div className={`max-w-[40rem]  text-center    ${isClicked?"self-center -mt-20":"ml-[16rem] -mt-4"} jockey-one-regular`}>
     <div className="mb-8">
       {/* <h1 className="text-5xl md:text-5xl mb-4 text-[#00B0FF] jockey-one-regular flex flex-col gap-y-2 gradient-titl"><div className="text-white ">FIND YOUR DREAM CAR</div> WITH MOTOR SQUARE</h1> */}
       <h1 className="text-5xl md:text-[3.5rem] mb-4 text-[#00B0FF] jockey-one-regular tracking-tight flex flex-col gap-y-2"><div className="text-white ">FIND YOUR DREAM CAR</div>WITH MOTOR SQUARE</h1>
@@ -63,7 +75,10 @@ useEffect(()=>{
         Advanced AI Car Search and test drive from thousands of vehicles
       </p> */}
     </div>
-    <HomeSearch/>
+    <div className="-mt-4 z-10 relative" >
+<HomeSearch setIsClicked={setIsClicked}/>
+    </div>
+    </div>
 
 
 
@@ -197,7 +212,7 @@ className="bg-white rounded-lg shadow p-4 text-center hover:shadow-md transition
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-[#F58AD5]text-[#FF1493]  rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-[#F58AD5] text-[#FF1493]  rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold mb-2">Secure Process</h3>
