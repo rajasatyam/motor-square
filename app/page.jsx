@@ -39,7 +39,7 @@ useEffect(()=>{
   
   return (
  <div className="pt-20 flex flex-col ">
- <section className={`relative  md:py-28 ${isClicked?"h-[65vh] sm:h-[76vh] md:h-[89vh] lg:h-[92vh]":"h-[40vh] sm:h-[63vh] md:h-[70vh] lg:h-[80vh]"}  xl:h-[90vh]`}
+ <section className={`relative  md:py-28 ${isClicked?"h-[58vh] sm:h-[76vh] md:h-[89vh] lg:h-[92vh]":"h-[33vh] sm:h-[63vh] md:h-[70vh] lg:h-[80vh]"}  xl:h-[90vh]`}
 
    style={{
     
