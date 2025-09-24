@@ -147,6 +147,7 @@ className='absolute right-2 rounded-full  bg-[#E93DB5] border border-[#C2185B] h
  
         <Button
         variant="outline"
+        className="mt-0.5"
         onClick={()=>{
           setSearchImage(null)
           setImagePreview("")

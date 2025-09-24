@@ -3,6 +3,7 @@ import User from "@/app/model/user";
 import { connect } from "@/lib/database";
 import { serializedCarData } from "@/lib/helper";
 import { auth } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 export async function GET(request){
    
@@ -17,15 +18,16 @@ export async function GET(request){
       }
   
       const user=await User.findOne({clerkUserId:userId})
+      console.log(user._id,"see user")
 
       const booking=await testDriveBookingModel.find({userId:user._id}).sort({bookingDate:-1}).populate("carId")
-
+         console.log(booking,"see book")
     
-        const formatBooking=booking.map((booking)=>(
+        const formatBooking=booking?.map((booking)=>(
             {
-            id:booking._id,
-            carId:booking.carId,
-            car:serializedCarData(booking.car),
+            _id:booking._id,
+            carId:booking.carId?._id,
+            car:serializedCarData(booking.carId),
             bookingDate:booking.bookingDate,
             startTime:booking.startTime,
             endTime:booking.endTime,
@@ -34,6 +36,7 @@ export async function GET(request){
 
 
         }))
+        console.log(formatBooking,"...format...")
                return NextResponse.json({
           success: true,
           data:formatBooking

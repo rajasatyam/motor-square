@@ -2,6 +2,7 @@ import TestDriveBooking from "@/app/model/testDriveBooking"
 import User from "@/app/model/user"
 import { connect } from "@/lib/database"
 import { revalidatePath } from "next/cache"
+import { NextResponse } from "next/server"
 
 export async function POST(request){
     try{

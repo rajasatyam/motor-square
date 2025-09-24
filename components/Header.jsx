@@ -70,7 +70,7 @@ console.log(checkAdmin?.user?.role,"piyush")
            <Link href="/admin">
               <Button variant="outline">
                 <Layout size={18}/>
-                <span className='hidden md:inline'>Admin Portal</span>
+                <span className='hidden md:inline '>Admin Portal</span>
                 </Button>
             </Link>
             )}
