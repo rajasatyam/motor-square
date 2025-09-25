@@ -1,6 +1,7 @@
 import TestDriveBooking from "@/app/model/testDriveBooking"
 import User from "@/app/model/user"
 import { connect } from "@/lib/database"
+import { auth } from "@clerk/nextjs/server"
 import { revalidatePath } from "next/cache"
 import { NextResponse } from "next/server"
 
@@ -10,7 +11,7 @@ await connect()
         const {searchParams}=new URL(request.url)
         const bookingId=searchParams.get("bookingId")
 const {userId}=await auth()
-
+   
       if(!userId){
        
           console.log('Unauthorized')
@@ -26,8 +27,9 @@ const {userId}=await auth()
     if(!booking){
         throw new Error("Booking Not Found")
     }
-
-    if(booking.userId !== user._id){
+     console.log(booking.userId,"booking user")
+     console.log(user._id,"userid")    
+    if(booking.userId.toString() !== user._id.toString()){
         throw new Error("Unauthorized to cancel this booking")
     }
 
@@ -42,21 +44,21 @@ const {userId}=await auth()
     const updatedTestDrive=await TestDriveBooking.updateOne({_id:bookingId},{
         $set:{status:'CANCELLED'}
     })
-
+const updatedData=await TestDriveBooking.findOne({_id:bookingId})
     revalidatePath('/reservations')
     revalidatePath('/admin/test-drives')
         return NextResponse.json({
          success:true,
          message:"Test drive cancelled Successfully",
-         data:updatedTestDrive
+         data:updatedData
         })
 
      }catch(error){
           console.error("Error Deleting Test Drive",error)
-      return NextResponse.json({
-       success:false,
-       error:error.message
-      })
+     return NextResponse.json(
+       { success: false, message:error.message },
+       { status: 500 }
+     );
      }
 
 }

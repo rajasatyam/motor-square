@@ -49,7 +49,7 @@ import { NextResponse } from "next/server"
               if(!user){
                 throw new Error("User Not Found")
               }
-              const car=await Car.findById({_id:carId})
+              const car=await Car.findById(carId)
                 console.log("dekho car",car)
               if(!car){
                 return NextResponse.json({

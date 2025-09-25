@@ -20,7 +20,7 @@ export async function GET(request){
       const user=await User.findOne({clerkUserId:userId})
       console.log(user._id,"see user")
 
-      const booking=await testDriveBookingModel.find({userId:user._id}).sort({bookingDate:-1}).populate("carId")
+      const booking=await testDriveBookingModel.find({userId:user._id}).sort({bookingDate:-1}).populate("carId userId")
          console.log(booking,"see book")
     
         const formatBooking=booking?.map((booking)=>(
@@ -32,8 +32,8 @@ export async function GET(request){
             startTime:booking.startTime,
             endTime:booking.endTime,
             status:booking.status,
-            notes:booking.notes
-
+            notes:booking.notes,
+            user:booking.userId
 
         }))
         console.log(formatBooking,"...format...")

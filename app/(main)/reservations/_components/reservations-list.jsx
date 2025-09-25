@@ -21,6 +21,9 @@ const ReservationList = ({reservationData}) => {
            if(response.ok){
               toast.success("Successfully cancelled test drive booking")
               setCancelling(false)
+              setTimeout(()=>{
+                  window.location.reload()
+              },5000)
            }
         }catch(error){
           toast.error("Test drive is not cancelled")
@@ -53,19 +56,21 @@ console.log(pastBooking,"past")
   return (
     <div className='space-y-6'>
         <div>
-            <h2 className='text-2xl font-bold mb-4'>Upcoming Test Drives</h2>
+           
             {upcomingBooking?.length === 0?(
               <p className='text-gray-500 italic'>No upcoming test drives.</p>
             ):(
               <div className='space-y-3'>
+                 <h2 className='text-2xl font-bold mb-4'>Upcoming Test Drives</h2>
                 {upcomingBooking?.map((booking)=>(
                     <TestDriveCard 
                        key={booking._id}
                        booking={booking}
                  onCancel={() => cancelUserTestDrive(booking._id)}
-
+                        
                        isCancelling={cancelling}
                        showActions
+                       viewMode="list"
                     />
                 ))}
               </div>

@@ -104,6 +104,7 @@ notes:data?.notes
 
           })
           setShowConfirmation(true)
+          
        
       }
 
@@ -189,7 +190,7 @@ useEffect(()=>{
 
 const handleCloseConfirmation=()=>{
   setShowConfirmation(false)
-  router.push(`/cars/${car?._id}`)
+  router.push(`/reservations`)
 }
   return (
     <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>

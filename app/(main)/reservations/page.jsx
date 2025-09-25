@@ -31,17 +31,17 @@ const [reservationData,setReservationData]=useState(null)
         }
 }
 
-// useEffect(()=>{
-//    getUserReservations()
-// },[])
+useEffect(()=>{
+   getUserReservations()
+},[])
   return (
-    <div className='container mx-auto -my-2'>
+    <div className='container  -my-2'>
         <img 
     src="/body/image-21.svg"
     className="absolute right-0 top-[40%] -translate-y-1/2 w-[40%] object-cover z-10"
     alt="Right image"
   />
-       <section className="relative bg-gradient-to-b from-[#F58AD580] to-[#3EBEF780] h-[40vh] -z-10">
+       <section className="relative bg-gradient-to-b from-[#F58AD580] to-[#3EBEF780] h-[40vh] -z-10 w-full">
 
 
 

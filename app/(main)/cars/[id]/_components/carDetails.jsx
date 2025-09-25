@@ -51,7 +51,7 @@ const CarDetails = ({car,testDriveInfo}) => {
          
             toast.success(result?.message)
           setIsWishlisted(result.saved);
-
+           router.push('/reservations')
        
  
         }
@@ -289,11 +289,12 @@ useEffect(() => {
 disabled={testDriveInfo?.userTestDrive && Object.keys(testDriveInfo?.userTestDrive).length > 0}
 onClick={handleBookTestDrive}
 >
-  <Calendar className="mr-5 h-5 w-5" />
-  {testDriveInfo?.userTestDrive?.length > 0  && testDriveInfo?.userTestDrive[0]?.bookingDate?`Booked for ${format(
+  <Calendar className=" h-5 w-5" />
+  <div className='pr-3 text-[1rem] sm:text-xl mt-1 sm:mt-0'>  {testDriveInfo?.userTestDrive?.length > 0  && testDriveInfo?.userTestDrive[0]?.bookingDate?`Booked for ${format(
    new Date(testDriveInfo?.userTestDrive[0]?.bookingDate),
    "EEEE,MMMM d,yyyy"
-  ).toString()}`:"Book Test Drive"}
+  ).toString()}`:"Book Test Drive"}</div>
+
   </Button>
 )}
 

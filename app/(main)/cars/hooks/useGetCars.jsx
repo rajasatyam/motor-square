@@ -26,8 +26,6 @@ const useGetCars = (id) => {
   useEffect(() => {
     if (!id) return
 
-   
-
     getCars()
   }, [id])
 
