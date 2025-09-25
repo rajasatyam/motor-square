@@ -8,7 +8,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
 
-const ReservationList = ({reservationData}) => {
+const ReservationList = ({reservationData,setIsRefetch}) => {
 
     const [cancelling,setCancelling]=useState(false)
     const cancelUserTestDrive=async(id)=>{
@@ -21,9 +21,7 @@ const ReservationList = ({reservationData}) => {
            if(response.ok){
               toast.success("Successfully cancelled test drive booking")
               setCancelling(false)
-              setTimeout(()=>{
-                  window.location.reload()
-              },5000)
+              setIsRefetch(true)
            }
         }catch(error){
           toast.error("Test drive is not cancelled")
@@ -38,7 +36,7 @@ console.log(reservationData,"initial")
 console.log(pastBooking,"past")
     if(reservationData?.data?.length===0){
         return(
-            <div className='min-h-[400px] flex flex-col items-center justify-center text-center p-8 border rounded-lg bg-gray-50'>
+            <div className='min-h-[400px] flex flex-col items-center justify-center text-center p-8 border rounded-lg bg-gray-50 mx-auto'>
               <div className='bg-gray-100 p-4 rounded-full mb-4'>
                 <Calendar className='h-8 w-8 text-gray-500'/>
               </div>

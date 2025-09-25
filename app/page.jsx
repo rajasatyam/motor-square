@@ -39,7 +39,7 @@ useEffect(()=>{
   
   return (
  <div className="pt-20 flex flex-col ">
- <section className={`relative  md:py-28 ${isClicked?"h-[65vh] sm:h-[76vh] md:h-[89vh] lg:h-[92vh]":"h-[33vh] sm:h-[63vh] md:h-[70vh] lg:h-[80vh]"}  xl:h-[90vh]`}
+ <section className={`relative  md:py-28 ${isClicked?"h-auto pb-2 sm:h-[68vh] md:h-[72vh] lg:h-[82vh] 2xl:h-[89vh]":"h-[33vh] sm:h-[63vh] md:h-[70vh] lg:h-[80vh]"}  xl:h-[90vh] 2xl:h-[92vh]`}
 
    style={{
     
@@ -64,7 +64,7 @@ useEffect(()=>{
   width={100}
   height={100} 
     src="/body/image-102.svg"
-    className={`hidden sm:block absolute right-0 top-1/2  ${isClicked?"sm:top-[79%] md:top-[79.5%] lg:top-[76.5%] xl:top-[77%] 2xl:top-[79%] w-[47%]":"sm:top-[66.5%] md:top-[62%] lg:top-[55%] xl:top-[50%] 2xl:top-[58%] w-[50%]"} -translate-y-1/2  object-cover mt-10 pointer-events-none z-0`}
+    className={`hidden sm:block absolute right-0 top-1/2  ${isClicked?"sm:top-[79%] md:top-[79.5%] lg:top-[76.5%] xl:top-[77%] 2xl:top-[76%] w-[47%]":"sm:top-[66.5%] md:top-[62%] lg:top-[55%] xl:top-[50%] 2xl:top-[58%] w-[50%]"} -translate-y-1/2  object-cover mt-10 pointer-events-none z-0`}
     alt="Right image"
     priority={true}
   />

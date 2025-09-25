@@ -13,6 +13,7 @@ const ReservationPage = () => {
 //  }
 
 const [reservationData,setReservationData]=useState(null)
+const [isrefetch,setIsRefetch]=useState(false)
     const getUserReservations=async()=>{
         try{
 
@@ -33,7 +34,7 @@ const [reservationData,setReservationData]=useState(null)
 
 useEffect(()=>{
    getUserReservations()
-},[])
+},[isrefetch])
   return (
     <div className='container  -my-2'>
         <img 
@@ -41,23 +42,8 @@ useEffect(()=>{
     className="absolute right-0 top-[40%] -translate-y-1/2 w-[40%] object-cover z-10"
     alt="Right image"
   />
-       <section className="relative bg-gradient-to-b from-[#F58AD580] to-[#3EBEF780] h-[40vh] -z-10 w-full">
 
-
-
-  {/* <div className="max-w-xl  text-center -mt-8 ml-60">
-    <div className="mb-8">
-
-      <h1 className="text-5xl md:text-[3rem] mb-4 text-[#00B0FF] jockey-one-regular flex flex-col gap-y-2"><div className="text-white ">FIND YOUR DREAM CAR</div>WITH MOTOR SQUARE</h1>
-  
-    </div>
- 
-
-
-
-  </div> */}
- </section>
-<ReservationList reservationData={reservationData}/>
+<ReservationList reservationData={reservationData} setIsRefetch={setIsRefetch}/>
 
     </div>
   )
