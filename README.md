@@ -17,10 +17,6 @@
 - [Tech Stack](#-tech-stack)
 - [Architecture](#-architecture)
 - [Directory Structure](#-directory-structure)
-- [Database Schema](#-database-schema)
-- [ER Diagram](#-er-diagram)
-- [API Routes](#-api-routes)
-- [Pages & Routes](#-pages--routes)
 - [Getting Started](#-getting-started)
 - [Environment Variables](#-environment-variables)
 
@@ -81,33 +77,33 @@
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │                       CLIENT (Browser)                       │
-│  Next.js App Router (React 19) + Tailwind + shadcn/ui       │
-│  ┌────────────┐  ┌──────────────┐  ┌─────────────────┐      │
+│  Next.js App Router (React 19) + Tailwind + shadcn/ui        │
+│  ┌────────────┐  ┌──────────────┐  ┌─────────────────┐       │
 │  │  Home Page  │  │  Cars Page   │  │   Admin Panel   │      │
 │  │  (search)   │  │  (filters)   │  │  (CRUD, config) │      │
-│  └─────┬──────┘  └──────┬───────┘  └────────┬────────┘      │
+│  └─────┬──────┘  └──────┬───────┘  └────────┬────────┘       │
 └────────┼────────────────┼───────────────────┼────────────────┘
          │                │                   │
     ┌────▼────────────────▼───────────────────▼────────┐
-    │             NEXT.JS SERVER LAYER                  │
-    │  ┌──────────────┐  ┌───────────────────────┐      │
-    │  │  API Routes   │  │  Server Actions        │     │
-    │  │  (18 routes)  │  │  (car, admin, settings)│     │
-    │  └──────┬───────┘  └──────────┬────────────┘      │
-    │         │                     │                    │
-    │  ┌──────▼─────────────────────▼──────────────┐    │
-    │  │           MIDDLEWARE (Clerk Auth)           │    │
-    │  │  Protects: /admin, /saved-cars, /reservations│  │
-    │  └──────────────────┬────────────────────────┘    │
-    └─────────────────────┼─────────────────────────────┘
+    │             NEXT.JS SERVER LAYER                 │
+    │  ┌──────────────┐  ┌───────────────────────┐     │
+    │  │  API Routes   │  │  Server Actions        │   │
+    │  │  (18 routes)  │  │  (car, admin, settings)│   │
+    │  └──────┬───────┘  └──────────┬────────────┘     │
+    │         │                     │                  │
+    │  ┌──────▼─────────────────────▼──────────────┐   │
+    │  │           MIDDLEWARE (Clerk Auth)           │ │
+    │  │  Protects: /admin, /saved-cars, /reservations││
+    │  └──────────────────┬────────────────────────┘   │
+    └─────────────────────┼────────────────────────────┘
                           │
     ┌─────────────────────▼─────────────────────────────┐
-    │              EXTERNAL SERVICES                     │
-    │  ┌─────────┐  ┌──────────┐  ┌──────────────┐      │
-    │  │ MongoDB  │  │ Gemini   │  │  ImageKit    │      │
-    │  │(Mongoose)│  │ 2.5 Flash│  │  (CDN)       │      │
-    │  └─────────┘  └──────────┘  └──────────────┘      │
-    └────────────────────────────────────────────────────┘
+    │              EXTERNAL SERVICES                    │
+    │  ┌──────────┐  ┌──────────┐  ┌──────────────┐     │
+    │  │ MongoDB  │  │ Gemini   │  │  ImageKit    │     │
+    │  │(Mongoose)│  │ 2.5 Flash│  │  (CDN)       │     │
+    │  └──────────┘  └──────────┘  └──────────────┘     │
+    └───────────────────────────────────────────────────┘
 ```
 
 ---
@@ -259,258 +255,6 @@ motor-square/
 └── .gitignore                    # Git ignore rules
 ```
 
----
-
-## 🗄️ Database Schema
-
-### Collections
-
-#### 1. `User`
-| Field          | Type       | Constraints                    | Description                        |
-|----------------|------------|--------------------------------|------------------------------------|
-| `_id`          | ObjectId   | Auto-generated                 | Primary key                        |
-| `clerkUserId`  | String     | Required                       | Clerk authentication ID            |
-| `email`        | String     | Required, Unique               | User email address                 |
-| `name`         | String     | Required                       | Full name                          |
-| `imageUrl`     | String     | URL validated                  | Profile picture URL                |
-| `phone`        | String     | Optional                       | Phone number                       |
-| `role`         | String     | Enum: `USER`, `ADMIN`          | User role for authorization        |
-| `savedCars`    | ObjectId[] | Ref → `UserSavedCar`          | Array of saved car references      |
-| `testDrives`   | ObjectId[] | Ref → `TestDriveBooking`      | Array of test drive booking refs   |
-| `createdAt`    | Date       | Auto (timestamps)              | Account creation time              |
-| `updatedAt`    | Date       | Auto (timestamps)              | Last update time                   |
-
-#### 2. `Car`
-| Field               | Type       | Constraints                             | Description                    |
-|---------------------|------------|-----------------------------------------|--------------------------------|
-| `_id`               | ObjectId   | Auto-generated                          | Primary key                    |
-| `make`              | String     | Required, Indexed                       | Manufacturer (e.g., Toyota)    |
-| `model`             | String     | Required, Indexed                       | Model name (e.g., Camry)       |
-| `year`              | Int32      | Required, Indexed                       | Manufacturing year             |
-| `price`             | String     | Required, Indexed                       | Price in dollars               |
-| `mileage`           | String     | Required                                | Mileage (Km/litre)            |
-| `color`             | String     | Optional                                | Exterior color                 |
-| `fuelType`          | String     | Indexed                                 | Petrol/Diesel/Electric/Hybrid  |
-| `transmission`      | String     | Optional                                | Automatic/Manual/Semi-Auto     |
-| `bodyType`          | String     | Optional                                | SUV/Sedan/Hatchback/etc.       |
-| `seats`             | Int32      | Optional                                | Number of seats                |
-| `description`       | String     | Optional                                | Listing description            |
-| `status`            | String     | Enum: `AVAILABLE`, `UNAVAILABLE`, `SOLD`| Listing status                 |
-| `featured`          | Boolean    | Default: false, Indexed                 | Show on homepage               |
-| `images`            | Array      | `[{ fileId, url }]`                     | ImageKit uploaded images       |
-| `savedBy`           | ObjectId[] | Ref → `User`                           | Users who saved this car       |
-| `testDriveBookings` | ObjectId[] | Ref → `TestDriveBooking`               | Associated test drive bookings |
-| `createdAt`         | Date       | Auto (timestamps)                       | Listing creation time          |
-| `updatedAt`         | Date       | Auto (timestamps)                       | Last update time               |
-
-#### 3. `UserSavedCar` (Junction Table)
-| Field       | Type     | Constraints               | Description            |
-|-------------|----------|---------------------------|------------------------|
-| `_id`       | ObjectId | Auto-generated            | Primary key            |
-| `userId`    | ObjectId | Required, Ref → `User`   | User who saved the car |
-| `carId`     | ObjectId | Required, Ref → `Car`    | Car that was saved     |
-| `createdAt` | Date     | Auto (timestamps)         | Save timestamp         |
-| `updatedAt` | Date     | Auto (timestamps)         | Last update            |
-
-**Indexes:** Compound unique `(userId, carId)`, individual on `userId` and `carId`
-
-#### 4. `TestDriveBooking`
-| Field         | Type     | Constraints                                                     | Description            |
-|---------------|----------|-----------------------------------------------------------------|------------------------|
-| `_id`         | ObjectId | Auto-generated                                                  | Primary key            |
-| `carId`       | ObjectId | Required, Ref → `Car`                                          | Car for the test drive |
-| `userId`      | ObjectId | Required, Ref → `User`                                         | User who booked        |
-| `bookingDate` | Date     | Required                                                        | Date of the test drive |
-| `startTime`   | String   | Required, Validated `HH:MM`                                    | Start time slot        |
-| `endTime`     | String   | Required, Validated `HH:MM`                                    | End time slot          |
-| `status`      | String   | Enum: `PENDING`, `CONFIRMED`, `COMPLETED`, `CANCELLED`, `NO_SHOW` | Booking status     |
-| `notes`       | String   | Optional                                                        | Additional notes       |
-| `createdAt`   | Date     | Auto (timestamps)                                               | Booking creation time  |
-| `updatedAt`   | Date     | Auto (timestamps)                                               | Last update            |
-
-**Indexes:** `carId`, `userId`, `bookingDate`, `status`
-
-#### 5. `Dealership`
-| Field          | Type       | Constraints                  | Description              |
-|----------------|------------|------------------------------|--------------------------|
-| `_id`          | ObjectId   | Auto-generated               | Primary key              |
-| `name`         | String     | Default: "Vehiql Motors"     | Dealership name          |
-| `address`      | String     | Default provided             | Physical address         |
-| `phone`        | String     | Default provided             | Contact phone            |
-| `email`        | String     | Default provided             | Contact email            |
-| `workingHour`  | ObjectId[] | Ref → `WorkingHour`         | Weekly schedule          |
-| `createdAt`    | Date       | Auto (timestamps)            | Creation time            |
-| `updatedAt`    | Date       | Auto (timestamps)            | Last update              |
-
-#### 6. `WorkingHour`
-| Field          | Type     | Constraints                                            | Description             |
-|----------------|----------|--------------------------------------------------------|-------------------------|
-| `_id`          | ObjectId | Auto-generated                                         | Primary key             |
-| `dealershipId` | ObjectId | Required, Ref → `Dealership`                          | Parent dealership       |
-| `dayOfWeek`    | String   | Enum: Mon–Sun                                          | Day of the week         |
-| `openTime`     | String   | Required, Validated `HH:MM`                           | Opening time            |
-| `closeTime`    | String   | Required, Validated `HH:MM`                           | Closing time            |
-| `isOpen`       | Boolean  | Default: true                                          | Is dealership open?     |
-| `createdAt`    | Date     | Auto (timestamps)                                      | Creation time           |
-| `updatedAt`    | Date     | Auto (timestamps)                                      | Last update             |
-
-**Indexes:** Compound unique `(dealershipId, dayOfWeek)`, `isOpen`
-
----
-
-## 📊 ER Diagram
-
-```mermaid
-erDiagram
-    USER {
-        ObjectId _id PK
-        String clerkUserId
-        String email UK
-        String name
-        String imageUrl
-        String phone
-        String role "USER | ADMIN"
-        Date createdAt
-        Date updatedAt
-    }
-
-    CAR {
-        ObjectId _id PK
-        String make
-        String model
-        Int32 year
-        String price
-        String mileage
-        String color
-        String fuelType
-        String transmission
-        String bodyType
-        Int32 seats
-        String description
-        String status "AVAILABLE | UNAVAILABLE | SOLD"
-        Boolean featured
-        Array images "fileId + url"
-        Date createdAt
-        Date updatedAt
-    }
-
-    USER_SAVED_CAR {
-        ObjectId _id PK
-        ObjectId userId FK
-        ObjectId carId FK
-        Date createdAt
-        Date updatedAt
-    }
-
-    TEST_DRIVE_BOOKING {
-        ObjectId _id PK
-        ObjectId carId FK
-        ObjectId userId FK
-        Date bookingDate
-        String startTime "HH:MM"
-        String endTime "HH:MM"
-        String status "PENDING | CONFIRMED | COMPLETED | CANCELLED | NO_SHOW"
-        String notes
-        Date createdAt
-        Date updatedAt
-    }
-
-    DEALERSHIP {
-        ObjectId _id PK
-        String name
-        String address
-        String phone
-        String email
-        Date createdAt
-        Date updatedAt
-    }
-
-    WORKING_HOUR {
-        ObjectId _id PK
-        ObjectId dealershipId FK
-        String dayOfWeek "Monday-Sunday"
-        String openTime "HH:MM"
-        String closeTime "HH:MM"
-        Boolean isOpen
-        Date createdAt
-        Date updatedAt
-    }
-
-    USER ||--o{ USER_SAVED_CAR : "saves"
-    CAR ||--o{ USER_SAVED_CAR : "saved by"
-    USER ||--o{ TEST_DRIVE_BOOKING : "books"
-    CAR ||--o{ TEST_DRIVE_BOOKING : "booked for"
-    DEALERSHIP ||--o{ WORKING_HOUR : "has schedule"
-    CAR }o--o{ USER : "savedBy array"
-```
-
----
-
-## 🔌 API Routes
-
-### Cars
-| Method | Endpoint                | Auth     | Description                                  |
-|--------|-------------------------|----------|----------------------------------------------|
-| GET    | `/api/getCarsBySearch`  | Optional | Search cars by make/model/color              |
-| GET    | `/api/getCarByFilters`  | Optional | Advanced filter (make, body, fuel, price, sort) |
-| GET    | `/api/getCarById`       | Optional | Get single car + wishlist status + test drive info |
-| GET    | `/api/getAllCarFilters` | No       | Get distinct filter values from available cars |
-| DELETE | `/api/deleteCar`        | Admin    | Delete a car listing                         |
-| PUT    | `/api/updateCar`        | Admin    | Update car details or status                 |
-
-### AI
-| Method | Endpoint            | Auth | Description                                  |
-|--------|---------------------|------|----------------------------------------------|
-| POST   | `/api/gemini-test`  | No   | Upload car image → Gemini AI extracts details |
-
-### Test Drives
-| Method | Endpoint                    | Auth     | Description                       |
-|--------|-----------------------------|----------|-----------------------------------|
-| POST   | `/api/bookTestDrive`        | Required | Book a test drive for a car       |
-| GET    | `/api/getUserTestDrive`     | Required | Get user's test drive bookings    |
-| DELETE | `/api/deleteUserTestDrive`  | Required | Cancel a test drive booking       |
-
-### Users & Saved Cars
-| Method | Endpoint                | Auth     | Description                        |
-|--------|-------------------------|----------|------------------------------------|
-| GET    | `/api/getUserById`      | Required | Get user by Clerk ID               |
-| GET    | `/api/getUserByName`    | Required | Search users by name               |
-| POST   | `/api/toggleSavedCars`  | Required | Toggle save/unsave a car           |
-| GET    | `/api/getUserSavedCars` | Required | Get all saved cars for current user |
-| PUT    | `/api/updateUserRole`   | Admin    | Update a user's role               |
-
-### Dealership
-| Method | Endpoint                  | Auth  | Description                       |
-|--------|---------------------------|-------|-----------------------------------|
-| GET    | `/api/getDealershipInfo`  | No    | Get dealership info + working hours |
-| POST   | `/api/saveWorkingHours`   | Admin | Save/update working hour schedule |
-
-### Files
-| Method | Endpoint              | Auth | Description                |
-|--------|-----------------------|------|----------------------------|
-| POST   | `/api/files/upload`   | Admin| Upload images to ImageKit  |
-
----
-
-## 🗺️ Pages & Routes
-
-| Route                      | Access     | Description                                 |
-|----------------------------|------------|---------------------------------------------|
-| `/`                        | Public     | Home page — hero, featured cars, browse, FAQ |
-| `/cars`                    | Public     | Browse all cars with filters & sorting      |
-| `/cars/[id]`               | Public     | Car detail page with EMI calculator         |
-| `/test-drive/[id]`         | Auth       | Test drive booking form                     |
-| `/saved-cars`              | Auth       | User's wishlisted/saved cars                |
-| `/reservations`            | Auth       | User's test drive bookings                  |
-| `/sign-in`                 | Public     | Clerk sign-in page                          |
-| `/sign-up`                 | Public     | Clerk sign-up page                          |
-| `/admin`                   | Admin      | Admin dashboard                             |
-| `/admin/cars`              | Admin      | Manage car listings                         |
-| `/admin/cars/create`       | Admin      | Add new car with AI auto-fill               |
-| `/admin/settings`          | Admin      | Dealership config, working hours, users     |
-| `/waitlist`                | Public     | Waitlist signup page                        |
-
----
 
 ## 🚀 Getting Started
 
@@ -560,8 +304,8 @@ Create a `.env.local` file in the project root:
 MONGODB_URL=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<dbname>
 
 # Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=test_...
+CLERK_SECRET_KEY=test_...
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
